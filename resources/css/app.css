@@ -59,6 +59,21 @@ main {
     background-color: var(--brand-red) !important;
 }
 
+/* Custom Button Styles */
+.btn-primary {
+    background-color: var(--brand-blue) !important;
+    border-color: var(--brand-blue) !important;
+    color: white !important;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+    background-color: #08184d !important;
+    border-color: #08184d !important;
+    color: white !important;
+}
+
 /* Top tiny bar */
 .top-bar {
     font-size: 0.9rem;
@@ -144,14 +159,16 @@ main {
 .product-card {
     border: 1px solid #eee;
     position: relative;
-    transition: transform 0.2s;
+    transition: transform 0.2s, box-shadow 0.2s;
     background: white;
     height: 100%;
+    cursor: pointer;
 }
 
 .product-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    border-color: var(--brand-blue);
 }
 
 .product-image-placeholder {

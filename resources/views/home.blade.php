@@ -18,9 +18,9 @@
                         <span class="text-white fs-3"> OFF</span>
                     </div>
                     <p class="lead mb-4 text-white">25 NOV - 25 DEC</p>
-                    <button class="btn btn-danger btn-lg rounded-pill px-5 py-3 fw-bold" aria-label="Shop now button">
+                    <a href="{{ route('products.index') }}" class="btn btn-danger btn-lg rounded-pill px-5 py-3 fw-bold" aria-label="Shop now button">
                         SHOP NOW <i class="bi bi-arrow-right ms-2" aria-hidden="true"></i>
-                    </button>
+                    </a>
                 </div>
                 <div class="col-md-6 text-end d-none d-md-block">
                     <div class="hero-image-placeholder">

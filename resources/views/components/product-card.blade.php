@@ -1,6 +1,13 @@
-@props(['name', 'oldPrice', 'newPrice', 'discount' => null, 'icon' => 'bi-box', 'rating' => 0, 'reviews' => 0, 'showCart' => false, 'tall' => false])
+@props(['name', 'oldPrice', 'newPrice' => null, 'price' => null, 'discount' => null, 'icon' => 'bi-box', 'rating' => 0, 'reviews' => 0, 'showCart' => false, 'tall' => false, 'slug' => null])
 
-<div class="product-card p-3 text-center">
+@php
+    // Support both 'price' and 'newPrice' props
+    $displayPrice = $newPrice ?? $price;
+    // Generate slug from name if not provided
+    $productSlug = $slug ?? strtolower(str_replace([' ', '&', '/'], ['-', 'and', '-'], $name));
+@endphp
+
+<div class="product-card p-3 text-center position-relative" style="cursor: pointer;" onclick="window.location.href='{{ route('products.show', $productSlug) }}'">
     @if($discount)
         <div class="sale-ribbon">{{ $discount }}% OFF</div>
     @endif
@@ -28,10 +35,12 @@
         @if($oldPrice)
             <span class="old-price">Rs. {{ number_format($oldPrice) }}</span>
         @endif
-        <span class="new-price ms-2">Rs. {{ number_format($newPrice) }}</span>
+        @if($displayPrice)
+            <span class="new-price {{ $oldPrice ? 'ms-2' : '' }}">Rs. {{ number_format($displayPrice) }}</span>
+        @endif
     </div>
     @if($showCart)
-        <button class="add-to-cart-btn">Add to Cart</button>
+        <button class="add-to-cart-btn" onclick="event.stopPropagation(); window.location.href='{{ route('products.show', $productSlug) }}'">Add to Cart</button>
     @endif
 </div>
 
