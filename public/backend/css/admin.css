@@ -1,0 +1,587 @@
+/* Backend Admin Styles */
+:root {
+    --sidebar-width: 260px;
+    --header-height: 70px;
+    --brand-blue: #0a1e5e;
+    --brand-red: #e60012;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+}
+
+/* Sidebar Styles */
+.left-sidebar-pro {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: var(--sidebar-width);
+    height: 100vh;
+    background: #2c3e50;
+    z-index: 1000;
+    overflow-y: auto;
+    transition: all 0.3s;
+}
+
+.left-sidebar-pro.collapsed {
+    margin-left: calc(-1 * var(--sidebar-width));
+}
+
+.sidebar-header {
+    padding: 20px;
+    background: #1a252f;
+    text-align: center;
+    border-bottom: 1px solid #34495e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-link {
+    text-decoration: none;
+    display: block;
+    width: 100%;
+}
+
+.sidebar-logo {
+    max-width: 100%;
+    height: auto;
+    max-height: 50px;
+    object-fit: contain;
+}
+
+.left-custom-menu-adp-wrap {
+    padding: 20px 0;
+}
+
+.metismenu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.metismenu li {
+    position: relative;
+}
+
+.metismenu li a {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    color: #bdc3c7;
+    text-decoration: none;
+    transition: all 0.3s;
+    border-left: 3px solid transparent;
+}
+
+.metismenu li a:hover,
+.metismenu li.active > a {
+    background: #34495e;
+    color: #fff;
+    border-left-color: var(--brand-red);
+}
+
+.metismenu li a .icon-wrap {
+    font-size: 18px;
+    width: 30px;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.metismenu .submenu-angle {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background: #1a252f;
+    display: none;
+}
+
+.metismenu li.active .submenu-angle {
+    display: block;
+}
+
+.metismenu .submenu-angle li a {
+    padding-left: 50px;
+    font-size: 14px;
+}
+
+/* Main Content Area */
+.all-content-wrapper {
+    margin-left: var(--sidebar-width);
+    min-height: 100vh;
+    transition: all 0.3s;
+    background: #f5f5f5;
+}
+
+/* Navbar - Using Bootstrap classes, minimal custom styles */
+.navbar {
+    z-index: 999;
+}
+
+.navbar .btn-primary {
+    background-color: var(--brand-blue);
+    border-color: var(--brand-blue);
+}
+
+.navbar .btn-primary:hover {
+    background-color: #08184d;
+    border-color: #08184d;
+}
+
+.notification-dropdown {
+    min-width: 280px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.notification-dropdown .dropdown-header {
+    font-weight: 600;
+    padding: 12px 16px;
+    background: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.notification-dropdown .dropdown-item {
+    padding: 10px 16px;
+    font-size: 13px;
+}
+
+/* Breadcrumb */
+.breadcome-area {
+    background: #fff;
+    padding: 20px 0;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.breadcome-list {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0 15px;
+}
+
+.breadcome-heading {
+    flex: 1;
+    min-width: 250px;
+}
+
+.breadcome-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.breadcome-menu li {
+    display: flex;
+    align-items: center;
+}
+
+.breadcome-menu a {
+    color: #666;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.breadcome-menu a:hover {
+    color: var(--brand-blue);
+}
+
+.bread-slash {
+    margin: 0 10px;
+    color: #999;
+}
+
+.bread-blod {
+    color: #333;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+
+/* Analytics Cards */
+.analytics-sparkle-area {
+    margin-bottom: 30px;
+}
+
+.analytics-sparkle-line {
+    background: #fff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    height: 100%;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.analytics-sparkle-line:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.analytics-content h5 {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 10px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.analytics-content h2 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 10px;
+    line-height: 1.2;
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+}
+
+.analytics-content .text-success {
+    color: #28a745 !important;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Progress Bars */
+.progress {
+    height: 8px;
+    border-radius: 4px;
+    background: #f0f0f0;
+    margin-top: 15px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.6s ease;
+}
+
+.progress-bar-success {
+    background-color: var(--brand-blue) !important;
+}
+
+.progress-bar-danger {
+    background-color: var(--brand-red) !important;
+}
+
+.progress-bar-info {
+    background-color: #17a2b8 !important;
+}
+
+.progress-bar-warning {
+    background-color: #ffc107 !important;
+}
+
+/* White Box */
+.white-box {
+    background: #fff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+.white-box .box-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Tables */
+.table {
+    margin-bottom: 0;
+    width: 100%;
+}
+
+.table thead th {
+    background: #f8f9fa;
+    font-weight: 600;
+    border-bottom: 2px solid #dee2e6;
+    padding: 15px 12px;
+    font-size: 14px;
+    color: #333;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.table tbody td {
+    padding: 15px 12px;
+    vertical-align: middle;
+    font-size: 14px;
+    color: #666;
+    border-bottom: 1px solid #f0f0f0;
+    white-space: nowrap;
+}
+
+.table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Product Sales Chart */
+.product-sales-chart {
+    background: #fff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+.portlet-title {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.portlet-title .row {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.portlet-title .caption {
+    display: flex;
+    align-items: center;
+}
+
+.portlet-title .actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.caption-subject {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+}
+
+/* Badges */
+.badge {
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: 20px;
+    display: inline-block;
+}
+
+.badge.bg-warning {
+    background-color: #ffc107 !important;
+    color: #000;
+}
+
+.badge.bg-info {
+    background-color: #17a2b8 !important;
+    color: #fff;
+}
+
+.badge.bg-success {
+    background-color: #28a745 !important;
+    color: #fff;
+}
+
+.badge.bg-danger {
+    background-color: #dc3545 !important;
+    color: #fff;
+}
+
+/* Buttons */
+.btn {
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-weight: 500;
+    transition: all 0.3s;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn-primary {
+    background-color: var(--brand-blue) !important;
+    border-color: var(--brand-blue) !important;
+    color: white !important;
+}
+
+.btn-primary:hover {
+    background-color: #08184d !important;
+    border-color: #08184d !important;
+    color: white !important;
+}
+
+.btn-sm {
+    padding: 5px 12px;
+    font-size: 13px;
+}
+
+/* Footer */
+.footer-copyright-area {
+    background: #fff;
+    padding: 20px 0;
+    margin-top: 50px;
+    border-top: 1px solid #eee;
+}
+
+.footer-copy-right {
+    text-align: center;
+    color: #666;
+    font-size: 14px;
+}
+
+/* Utilities */
+.reso-mg-b-30 {
+    margin-bottom: 30px;
+}
+
+.table-mg-t-pro {
+    margin-top: 30px;
+}
+
+.dk-res-t-pro-30 {
+    margin-top: 30px;
+}
+
+.m-b-0 {
+    margin-bottom: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .left-sidebar-pro {
+        margin-left: calc(-1 * var(--sidebar-width));
+    }
+
+    .left-sidebar-pro.active {
+        margin-left: 0;
+    }
+
+    .all-content-wrapper {
+        margin-left: 0;
+    }
+
+    .header-top-wraper {
+        padding: 10px 15px;
+        min-height: 60px;
+    }
+
+    .admin-info {
+        display: none;
+    }
+
+    .admin-dropdown {
+        padding: 8px;
+    }
+
+    .breadcome-list {
+        justify-content: flex-start;
+    }
+
+    .analytics-sparkle-line {
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 991px) {
+    .reso-mg-b-30 {
+        margin-bottom: 20px;
+    }
+
+    .table-mg-t-pro {
+        margin-top: 20px;
+    }
+
+    .dk-res-t-pro-30 {
+        margin-top: 20px;
+    }
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border-radius: 8px;
+    padding: 8px 0;
+    margin-top: 10px;
+    min-width: 220px;
+    display: none;
+}
+
+.dropdown-menu.show {
+    display: block;
+}
+
+.dropdown-item {
+    padding: 10px 16px;
+    font-size: 14px;
+    color: #333;
+    display: flex;
+    align-items: center;
+    transition: all 0.2s;
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+.dropdown-item.text-danger {
+    color: #dc3545;
+}
+
+.dropdown-item.text-danger:hover {
+    background-color: #fff5f5;
+    color: #dc3545;
+}
+
+.dropdown-item i {
+    width: 20px;
+    font-size: 16px;
+}
+
+.dropdown-divider {
+    margin: 8px 0;
+    border-top: 1px solid #e9ecef;
+}
+
+.dropdown-header {
+    font-weight: 600;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #666;
+}
+
+/* Table Responsive */
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Remove extra sections from dashboard */
+.traffice-source-area,
+.courses-area {
+    display: none;
+}
