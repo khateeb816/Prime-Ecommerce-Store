@@ -5,29 +5,36 @@
 @section('keywords', 'electronics, home appliances, kitchen appliances, Prime, online shopping, Pakistan')
 
 @section('content')
-    <!-- Hero Banner Section -->
-    <section class="hero-banner" aria-label="Hero banner with sale information">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-6 py-5">
-                    <h4 class="mb-2 text-white fw-normal">SAB SE BARI</h4>
-                    <h1 class="display-2 fw-bold fst-italic hero-sale-text mb-3">ASLI SALE</h1>
-                    <h3 class="text-white mb-2">ANNUAL SALE UPTO</h3>
-                    <div class="mb-3">
-                        <span class="text-warning display-3 fw-bold">33%</span>
-                        <span class="text-white fs-3"> OFF</span>
-                    </div>
-                    <p class="lead mb-4 text-white">25 NOV - 25 DEC</p>
-                    <a href="{{ route('products.index') }}" class="btn btn-danger btn-lg rounded-pill px-5 py-3 fw-bold" aria-label="Shop now button">
-                        SHOP NOW <i class="bi bi-arrow-right ms-2" aria-hidden="true"></i>
-                    </a>
+    <!-- Hero Banner Carousel Section -->
+    <section class="hero-banner" aria-label="Hero banner carousel">
+        <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+                <!-- Slide 1 -->
+                <div class="carousel-item active">
+                    <img src="https://plus.unsplash.com/premium_photo-1701590725747-ac131d4dcffd?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8d2Vic2l0ZSUyMGJhbm5lcnxlbnwwfHwwfHx8MA%3D%3D" class="d-block w-100" alt="Banner 1">
                 </div>
-                <div class="col-md-6 text-end d-none d-md-block">
-                    <div class="hero-image-placeholder">
-                        <i class="bi bi-person-circle hero-icon" aria-hidden="true"></i>
-                    </div>
+                <!-- Slide 2 -->
+                <div class="carousel-item">
+                    <img src="https://plus.unsplash.com/premium_photo-1701590725747-ac131d4dcffd?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8d2Vic2l0ZSUyMGJhbm5lcnxlbnwwfHwwfHx8MA%3D%3D" class="d-block w-100" alt="Banner 2">
+                </div>
+                <!-- Slide 3 -->
+                <div class="carousel-item">
+                    <img src="https://plus.unsplash.com/premium_photo-1701590725747-ac131d4dcffd?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8d2Vic2l0ZSUyMGJhbm5lcnxlbnwwfHwwfHx8MA%3D%3D" class="d-block w-100" alt="Banner 3">
                 </div>
             </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev" aria-label="Previous slide">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next" aria-label="Next slide">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
     </section>
 

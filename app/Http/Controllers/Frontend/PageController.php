@@ -17,14 +17,17 @@ class PageController extends Controller
         return view('frontend.pages.store-location');
     }
 
-    public function corporateSales()
+    public function electronics($category = null)
     {
-        return view('frontend.pages.corporate-sales');
+        return view('frontend.products.index', compact('category'));
     }
-
-    public function builtInKitchen()
+    public function mobiles($category = null)
     {
-        return view('frontend.pages.built-in-kitchen');
+        return view('frontend.products.index', compact('category'));
+    }
+    public function bikes($category = null)
+    {
+        return view('frontend.products.index', compact('category'));
     }
 }
 

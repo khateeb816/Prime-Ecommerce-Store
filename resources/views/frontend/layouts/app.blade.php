@@ -48,11 +48,104 @@
                 });
             }
 
-            // Category menu hover functionality
+            // Mobile category menu functionality
+            const mobileCategoryTrigger = document.querySelector('.mobile-category-trigger');
+            const mobileCategoryOverlay = document.getElementById('mobileCategoryOverlay');
+            const mobileCategoryClose = document.getElementById('mobileCategoryClose');
+            const mobileCategoryItems = document.querySelectorAll('.mobile-category-content .category-item');
+            const mobileBrandsMenus = document.querySelectorAll('.mobile-category-content .brands-menu');
+            const mobileBrandsDropdown = document.querySelector('.mobile-category-content .brands-dropdown');
+
+            if (mobileCategoryTrigger && mobileCategoryOverlay) {
+                // Open mobile category menu
+                mobileCategoryTrigger.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    mobileCategoryOverlay.classList.add('show');
+                    document.body.style.overflow = 'hidden';
+                });
+
+                // Close mobile category menu
+                if (mobileCategoryClose) {
+                    mobileCategoryClose.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        closeMobileCategoryMenu();
+                    });
+                }
+
+                // Close on overlay click
+                mobileCategoryOverlay.addEventListener('click', function(e) {
+                    if (e.target === mobileCategoryOverlay) {
+                        closeMobileCategoryMenu();
+                    }
+                });
+
+                function closeMobileCategoryMenu() {
+                    mobileCategoryOverlay.classList.remove('show');
+                    document.body.style.overflow = '';
+                    // Reset brands dropdown
+                    if (mobileBrandsDropdown) {
+                        mobileBrandsDropdown.classList.remove('has-active');
+                    }
+                    mobileBrandsMenus.forEach(menu => menu.classList.remove('active'));
+                    mobileCategoryItems.forEach(item => item.classList.remove('active'));
+                }
+
+                // Handle category item clicks on mobile
+                mobileCategoryItems.forEach(item => {
+                    const category = item.getAttribute('data-category');
+                    const brandMenu = document.querySelector(`.mobile-category-content .brands-menu[data-category="${category}"]`);
+                    const categoryLink = item.querySelector('.category-link');
+
+                    categoryLink.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        // Toggle active state
+                        const isActive = item.classList.contains('active');
+
+                        // Remove active from all items
+                        mobileCategoryItems.forEach(cat => cat.classList.remove('active'));
+                        mobileBrandsMenus.forEach(menu => menu.classList.remove('active'));
+
+                        if (!isActive && brandMenu && mobileBrandsDropdown) {
+                            // Show brands menu
+                            item.classList.add('active');
+                            brandMenu.classList.add('active');
+                            mobileBrandsDropdown.classList.add('has-active');
+                        } else {
+                            // Hide brands menu
+                            if (mobileBrandsDropdown) {
+                                mobileBrandsDropdown.classList.remove('has-active');
+                            }
+                        }
+                    });
+                });
+
+                // Handle back button in brands menu
+                const mobileBrandsHeaders = document.querySelectorAll('.mobile-category-content .brands-header');
+                mobileBrandsHeaders.forEach(header => {
+                    header.addEventListener('click', function(e) {
+                        if (e.target === header || header.contains(e.target)) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            // Go back to category list
+                            if (mobileBrandsDropdown) {
+                                mobileBrandsDropdown.classList.remove('has-active');
+                            }
+                            mobileBrandsMenus.forEach(menu => menu.classList.remove('active'));
+                            mobileCategoryItems.forEach(item => item.classList.remove('active'));
+                        }
+                    });
+                });
+            }
+
+            // Category menu hover functionality (desktop only)
             const categoryTrigger = document.querySelector('.category-trigger');
             const categoryMenuWrapper = document.querySelector('.category-menu-wrapper');
-            const categoryItems = document.querySelectorAll('.category-item');
-            const brandsMenus = document.querySelectorAll('.brands-menu');
+            const categoryItems = categoryMenuWrapper ? categoryMenuWrapper.querySelectorAll('.category-item') : [];
+            const brandsMenus = categoryMenuWrapper ? categoryMenuWrapper.querySelectorAll('.brands-menu') : [];
 
             if (categoryTrigger && categoryMenuWrapper) {
                 // Show menu on hover
@@ -62,7 +155,7 @@
                     categoryMenuWrapper.style.pointerEvents = 'all';
                 });
 
-                const brandsDropdown = document.querySelector('.brands-dropdown');
+                const brandsDropdown = categoryMenuWrapper ? categoryMenuWrapper.querySelector('.brands-dropdown') : null;
 
                 categoryMenuWrapper.addEventListener('mouseleave', function() {
                     // Clear any pending hide timeout

@@ -45,8 +45,9 @@ Route::prefix('user')->name('user.')->group(function () {
 // Pages
 Route::get('/about-us', [PageController::class, 'about'])->name('about');
 Route::get('/store-location', [PageController::class, 'storeLocation'])->name('store-location');
-Route::get('/corporate-sales', [PageController::class, 'corporateSales'])->name('corporate-sales');
-Route::get('/built-in-kitchen-appliances', [PageController::class, 'builtInKitchen'])->name('built-in-kitchen');
+Route::get('/mobiles', [PageController::class, 'mobiles'])->name('mobiles');
+Route::get('/electronics', [PageController::class, 'electronics'])->name('electronics');
+Route::get('/bikes', [PageController::class, 'bikes'])->name('bikes');
 
 // Backend Admin Routes
 Route::prefix('admin')->name('backend.')->group(function () {
