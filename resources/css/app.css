@@ -217,21 +217,38 @@ main {
     }
 }
 
+/* Sale Products Section */
+section[aria-label="Sale products"],
+section[aria-label="Popular Brands"] {
+    overflow-x: hidden;
+    width: 100%;
+}
+
 /* Sale Products Carousel */
 #saleProductsCarousel {
     position: relative;
     padding: 10px 60px;
     max-width: 100%;
-    overflow: visible;
+    overflow: hidden;
+    width: 100%;
+}
+
+#saleProductsCarousel .carousel {
+    overflow: hidden;
 }
 
 #saleProductsCarousel .carousel-inner {
-    overflow: visible;
+    overflow: hidden;
 }
 
 #saleProductsCarousel .carousel-item {
     padding-top: 5px;
     padding-bottom: 5px;
+    overflow: visible;
+}
+
+#saleProductsCarousel .carousel-item .row {
+    overflow: visible;
 }
 
 #saleProductsCarousel .row {
@@ -385,16 +402,26 @@ main {
     position: relative;
     padding: 10px 60px;
     max-width: 100%;
-    overflow: visible;
+    overflow: hidden;
+    width: 100%;
+}
+
+#brandsCarousel .carousel {
+    overflow: hidden;
 }
 
 #brandsCarousel .carousel-inner {
-    overflow: visible;
+    overflow: hidden;
 }
 
 #brandsCarousel .carousel-item {
     padding-top: 5px;
     padding-bottom: 5px;
+    overflow: visible;
+}
+
+#brandsCarousel .carousel-item .row {
+    overflow: visible;
 }
 
 #brandsCarousel .row {
@@ -1290,4 +1317,204 @@ img {
     clip: rect(0, 0, 0, 0);
     white-space: nowrap;
     border-width: 0;
+}
+
+/* Modern Filter Styles */
+.filter-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: var(--brand-blue) #f0f0f0;
+}
+
+.filter-scroll::-webkit-scrollbar {
+    width: 6px;
+}
+
+.filter-scroll::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-radius: 10px;
+}
+
+.filter-scroll::-webkit-scrollbar-thumb {
+    background: var(--brand-blue);
+    border-radius: 10px;
+}
+
+.filter-scroll::-webkit-scrollbar-thumb:hover {
+    background: var(--brand-red);
+}
+
+/* Price Range Slider */
+.price-range-container {
+    padding: 10px 0;
+}
+
+.range-slider-wrapper {
+    position: relative;
+    height: 50px;
+    margin: 20px 0;
+    padding: 15px 0;
+    z-index: 1;
+}
+
+.range-slider-wrapper input[type="range"] {
+    position: absolute;
+    width: 100%;
+    height: 6px;
+    background: transparent;
+    -webkit-appearance: none;
+    appearance: none;
+    pointer-events: none;
+    margin: 0;
+    padding: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.range-slider-wrapper input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: var(--brand-blue);
+    border-radius: 50%;
+    cursor: pointer;
+    pointer-events: all;
+    border: 3px solid white;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    transition: all 0.2s;
+    margin-top: -7px;
+    position: relative;
+    z-index: 10;
+}
+
+.range-slider-wrapper input[type="range"]::-webkit-slider-thumb:hover {
+    background: var(--brand-red);
+    transform: scale(1.15);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.4);
+}
+
+.range-slider-wrapper input[type="range"]::-webkit-slider-thumb:active {
+    transform: scale(1.2);
+}
+
+.range-slider-wrapper input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: var(--brand-blue);
+    border-radius: 50%;
+    cursor: pointer;
+    pointer-events: all;
+    border: 3px solid white;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    transition: all 0.2s;
+    position: relative;
+    z-index: 10;
+}
+
+.range-slider-wrapper input[type="range"]::-moz-range-thumb:hover {
+    background: var(--brand-red);
+    transform: scale(1.15);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.4);
+}
+
+.range-slider-wrapper input[type="range"]::-webkit-slider-runnable-track {
+    height: 6px;
+    background: #e0e0e0;
+    border-radius: 3px;
+}
+
+.range-slider-wrapper input[type="range"]::-moz-range-track {
+    height: 6px;
+    background: #e0e0e0;
+    border-radius: 3px;
+}
+
+/* Create the track background */
+.range-slider-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: #e0e0e0;
+    border-radius: 3px;
+    transform: translateY(-50%);
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Active range track (between min and max) */
+.range-slider-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: var(--min-percent, 0%);
+    width: calc(var(--max-percent, 100%) - var(--min-percent, 0%));
+    height: 6px;
+    background: var(--brand-blue);
+    border-radius: 3px;
+    transform: translateY(-50%);
+    z-index: 0;
+    pointer-events: none;
+    transition: left 0.1s, width 0.1s;
+}
+
+.range-slider-wrapper input[type="range"]:nth-child(1) {
+    z-index: 2;
+}
+
+.range-slider-wrapper input[type="range"]:nth-child(1):hover,
+.range-slider-wrapper input[type="range"]:nth-child(1):active {
+    z-index: 4;
+}
+
+.range-slider-wrapper input[type="range"]:nth-child(2) {
+    z-index: 3;
+}
+
+.range-slider-wrapper input[type="range"]:nth-child(2):hover,
+.range-slider-wrapper input[type="range"]:nth-child(2):active {
+    z-index: 4;
+}
+
+/* Filter Checkbox Styles */
+.form-check-input:checked {
+    background-color: var(--brand-blue);
+    border-color: var(--brand-blue);
+}
+
+.form-check-input:focus {
+    border-color: var(--brand-blue);
+    box-shadow: 0 0 0 0.25rem rgba(10, 30, 94, 0.25);
+}
+
+.form-check-label {
+    cursor: pointer;
+    user-select: none;
+    transition: color 0.2s;
+}
+
+.form-check:hover .form-check-label {
+    color: var(--brand-blue);
+}
+
+/* Filter Card Styles */
+.card.shadow-sm {
+    border-radius: 8px;
+}
+
+.card-header.bg-brand-blue {
+    border-radius: 8px 8px 0 0 !important;
+}
+
+/* Input Group Styles */
+.input-group-sm .input-group-text {
+    font-size: 0.875rem;
+    padding: 0.25rem 0.5rem;
+}
+
+.input-group-sm .form-control {
+    font-size: 0.875rem;
+    padding: 0.25rem 0.5rem;
 }
