@@ -217,6 +217,314 @@ main {
     }
 }
 
+/* Sale Products Carousel */
+#saleProductsCarousel {
+    position: relative;
+    padding: 10px 60px;
+    max-width: 100%;
+    overflow: visible;
+}
+
+#saleProductsCarousel .carousel-inner {
+    overflow: visible;
+}
+
+#saleProductsCarousel .carousel-item {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+#saleProductsCarousel .row {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+#saleProductsCarousel .row > [class*="col-"] {
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+@media (min-width: 1400px) {
+    #saleProductsCarousel {
+        padding: 10px 80px;
+    }
+
+    #saleProductsCarousel .row > [class*="col-"] {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+}
+
+#saleProductsCarousel .carousel-control-prev,
+#saleProductsCarousel .carousel-control-next {
+    width: 45px;
+    height: 45px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: var(--brand-blue);
+    border-radius: 50%;
+    opacity: 0.9;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#saleProductsCarousel .carousel-control-prev {
+    left: 10px;
+}
+
+#saleProductsCarousel .carousel-control-next {
+    right: 10px;
+}
+
+@media (min-width: 1400px) {
+    #saleProductsCarousel .carousel-control-prev {
+        left: 20px;
+    }
+
+    #saleProductsCarousel .carousel-control-next {
+        right: 20px;
+    }
+}
+
+#saleProductsCarousel .carousel-control-prev:hover,
+#saleProductsCarousel .carousel-control-next:hover {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+    background-color: var(--brand-red);
+}
+
+#saleProductsCarousel .carousel-control-prev-icon,
+#saleProductsCarousel .carousel-control-next-icon {
+    width: 20px;
+    height: 20px;
+}
+
+#saleProductsCarousel .carousel-indicators {
+    margin-bottom: -40px;
+    position: relative;
+}
+
+#saleProductsCarousel .carousel-indicators button {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.3);
+    border: 2px solid rgba(0, 0, 0, 0.5);
+    margin: 0 5px;
+    opacity: 1;
+}
+
+#saleProductsCarousel .carousel-indicators button.active {
+    background-color: var(--brand-red);
+    border-color: var(--brand-red);
+}
+
+@media (max-width: 768px) {
+    #saleProductsCarousel {
+        padding: 10px 40px;
+    }
+
+    #saleProductsCarousel .carousel-control-prev {
+        left: 5px;
+    }
+
+    #saleProductsCarousel .carousel-control-next {
+        right: 5px;
+    }
+
+    #saleProductsCarousel .carousel-control-prev,
+    #saleProductsCarousel .carousel-control-next {
+        width: 35px;
+        height: 35px;
+    }
+
+    #saleProductsCarousel .carousel-control-prev-icon,
+    #saleProductsCarousel .carousel-control-next-icon {
+        width: 15px;
+        height: 15px;
+    }
+
+    #saleProductsCarousel .carousel-indicators {
+        margin-bottom: -30px;
+    }
+}
+
+/* Brand Cards */
+.brand-card {
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    background: white;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+}
+
+.brand-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    border-color: var(--brand-blue);
+    z-index: 10;
+}
+
+.brand-card .brand-icon {
+    transition: transform 0.3s ease;
+}
+
+.brand-card:hover .brand-icon {
+    transform: scale(1.1);
+}
+
+.brand-card:hover h5 {
+    color: var(--brand-red) !important;
+}
+
+/* Brands Carousel */
+#brandsCarousel {
+    position: relative;
+    padding: 10px 60px;
+    max-width: 100%;
+    overflow: visible;
+}
+
+#brandsCarousel .carousel-inner {
+    overflow: visible;
+}
+
+#brandsCarousel .carousel-item {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+#brandsCarousel .row {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+#brandsCarousel .row > [class*="col-"] {
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+@media (min-width: 1400px) {
+    #brandsCarousel {
+        padding: 10px 80px;
+    }
+
+    #brandsCarousel .row > [class*="col-"] {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+}
+
+#brandsCarousel .carousel-control-prev,
+#brandsCarousel .carousel-control-next {
+    width: 45px;
+    height: 45px;
+    top: 45%;
+    transform: translateY(-50%);
+    background-color: var(--brand-blue);
+    border-radius: 50%;
+    opacity: 0.9;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#brandsCarousel .carousel-control-prev {
+    left: 10px;
+}
+
+#brandsCarousel .carousel-control-next {
+    right: 10px;
+}
+
+@media (min-width: 1400px) {
+    #brandsCarousel .carousel-control-prev {
+        left: 20px;
+    }
+
+    #brandsCarousel .carousel-control-next {
+        right: 20px;
+    }
+}
+
+#brandsCarousel .carousel-control-prev:hover,
+#brandsCarousel .carousel-control-next:hover {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+    background-color: var(--brand-red);
+}
+
+#brandsCarousel .carousel-control-prev-icon,
+#brandsCarousel .carousel-control-next-icon {
+    width: 20px;
+    height: 20px;
+}
+
+#brandsCarousel .carousel-indicators {
+    margin-bottom: -40px;
+    position: relative;
+}
+
+#brandsCarousel .carousel-indicators button {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.3);
+    border: 2px solid rgba(0, 0, 0, 0.5);
+    margin: 0 5px;
+    opacity: 1;
+}
+
+#brandsCarousel .carousel-indicators button.active {
+    background-color: var(--brand-red);
+    border-color: var(--brand-red);
+}
+
+@media (max-width: 768px) {
+    #brandsCarousel {
+        padding: 10px 40px;
+    }
+
+    #brandsCarousel .carousel-control-prev {
+        left: 5px;
+    }
+
+    #brandsCarousel .carousel-control-next {
+        right: 5px;
+    }
+
+    #brandsCarousel .carousel-control-prev,
+    #brandsCarousel .carousel-control-next {
+        width: 35px;
+        height: 35px;
+    }
+
+    #brandsCarousel .carousel-control-prev-icon,
+    #brandsCarousel .carousel-control-next-icon {
+        width: 15px;
+        height: 15px;
+    }
+
+    #brandsCarousel .carousel-indicators {
+        margin-bottom: -30px;
+    }
+
+    .brand-card {
+        padding: 20px 15px !important;
+    }
+
+    .brand-card .brand-icon i {
+        font-size: 45px !important;
+    }
+
+    .brand-card h5 {
+        font-size: 1rem !important;
+    }
+}
+
 /* Category Icons */
 .cat-item {
     transition: transform 0.2s;
@@ -247,12 +555,14 @@ main {
     background: white;
     height: 100%;
     cursor: pointer;
+    z-index: 1;
 }
 
 .product-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     border-color: var(--brand-blue);
+    z-index: 10;
 }
 
 .product-image-placeholder {

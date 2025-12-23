@@ -39,7 +39,10 @@ $categories = [
                     <div class="brands-header">{{ strtoupper($category) }} BRANDS</div>
                     <ul class="brands-list">
                         @foreach($brands as $brand)
-                            <li><a href="#">{{ $brand }}</a></li>
+                            @php
+                                $brandSlug = strtolower(str_replace([' ', '&', '/'], ['-', 'and', '-'], $brand));
+                            @endphp
+                            <li><a href="{{ route('products.brand', $brandSlug) }}">{{ $brand }}</a></li>
                         @endforeach
                     </ul>
                 </div>

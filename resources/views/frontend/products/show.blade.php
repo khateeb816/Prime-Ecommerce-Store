@@ -1,8 +1,8 @@
 @extends('frontend.layouts.app')
 
-@section('title', 'Prime - Product Details')
-@section('description', 'View product details, specifications, and reviews at Prime.')
-@section('keywords', 'product details, specifications, Prime')
+@section('title', $product['name'] . ' - Prime')
+@section('description', $product['description'] ?? 'View product details, specifications, and reviews at Prime.')
+@section('keywords', $product['name'] . ', product details, specifications, Prime')
 
 @section('content')
     <!-- Breadcrumb -->
@@ -11,8 +11,7 @@
             <ol class="breadcrumb mb-0">
                 <li class="breadcrumb-item"><a href="{{ route('home') }}" class="text-decoration-none">Home</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('products.index') }}" class="text-decoration-none">Products</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('products.category', 'Air Conditioner') }}" class="text-decoration-none">Air Conditioner</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Haier 1.5 Ton Inverter AC</li>
+                <li class="breadcrumb-item active" aria-current="page">{{ $product['name'] }}</li>
             </ol>
         </div>
     </nav>
@@ -26,7 +25,9 @@
                     <div class="product-image-placeholder tall d-flex align-items-center justify-content-center bg-light border rounded" style="min-height: 500px; cursor: zoom-in;">
                         <i class="bi bi-snow" style="font-size: 200px; color: var(--brand-blue);"></i>
                     </div>
-                    <span class="badge bg-danger position-absolute top-0 start-0 m-3" style="font-size: 1rem; padding: 8px 12px;">24% OFF</span>
+                    @if($product['discount'])
+                        <span class="badge bg-danger position-absolute top-0 start-0 m-3" style="font-size: 1rem; padding: 8px 12px;">{{ $product['discount'] }}% OFF</span>
+                    @endif
                 </div>
                 <div class="product-image-thumbnails d-flex gap-2 overflow-auto pb-2">
                     @for($i = 1; $i <= 5; $i++)
@@ -43,16 +44,20 @@
             <div class="col-lg-6">
                 <div class="d-flex justify-content-between align-items-start mb-3">
                     <div>
-                        <h1 class="h2 fw-bold mb-2">Haier 1.5 Ton Inverter AC</h1>
+                        <h1 class="h2 fw-bold mb-2">{{ $product['name'] }}</h1>
                         <div class="d-flex align-items-center gap-2 mb-2">
                             <div class="text-warning">
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-half"></i>
+                                @for($i = 1; $i <= 5; $i++)
+                                    @if($i <= floor($product['rating']))
+                                        <i class="bi bi-star-fill"></i>
+                                    @elseif($i - 0.5 <= $product['rating'])
+                                        <i class="bi bi-star-half"></i>
+                                    @else
+                                        <i class="bi bi-star"></i>
+                                    @endif
+                                @endfor
                             </div>
-                            <span class="text-muted">(4.5) · 24 reviews</span>
+                            <span class="text-muted">({{ $product['rating'] }}) · {{ $product['reviews'] }} {{ $product['reviews'] == 1 ? 'review' : 'reviews' }}</span>
                         </div>
                     </div>
                     <div class="d-flex gap-2">
@@ -76,10 +81,14 @@
                 <div class="mb-4 p-3 bg-light rounded">
                     <div class="d-flex align-items-center gap-3 mb-2">
                         <div>
-                            <span class="old-price d-block">Rs. 85,000</span>
-                            <span class="new-price h4 mb-0">Rs. 65,000</span>
+                            @if($product['old_price'])
+                                <span class="old-price d-block">Rs. {{ number_format($product['old_price']) }}</span>
+                            @endif
+                            <span class="new-price h4 mb-0">Rs. {{ number_format($product['price']) }}</span>
                         </div>
-                        <span class="badge bg-danger" style="font-size: 1rem; padding: 8px 12px;">Save 24%</span>
+                        @if($product['discount'])
+                            <span class="badge bg-danger" style="font-size: 1rem; padding: 8px 12px;">Save {{ $product['discount'] }}%</span>
+                        @endif
                     </div>
                     <p class="text-muted small mb-0">
                         <i class="bi bi-info-circle me-1"></i>Inclusive of all taxes · Free delivery on orders above Rs. 10,000
@@ -190,16 +199,15 @@
                             Specifications
                         </button>
                     </li>
-                    <li class="nav-item" role="presentation">
+                        <li class="nav-item" role="presentation">
                         <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews" type="button" role="tab">
-                            Reviews (24)
+                            Reviews ({{ $product['reviews'] }})
                         </button>
                     </li>
                 </ul>
                 <div class="tab-content border border-top-0 p-4" id="productTabsContent">
                     <div class="tab-pane fade show active" id="description" role="tabpanel">
-                        <p>Experience superior cooling with the Haier 1.5 Ton Inverter AC. This energy-efficient air conditioner features advanced inverter technology that adjusts compressor speed based on cooling requirements, resulting in significant energy savings.</p>
-                        <p>The AC comes with a 5-star energy rating, making it an eco-friendly choice. With Wi-Fi connectivity, you can control your AC remotely using your smartphone. The 10-year compressor warranty ensures peace of mind for years to come.</p>
+                        <p>{{ $product['description'] ?? 'This is a high-quality product with excellent features. It comes with a warranty and all necessary accessories. Perfect for your needs.' }}</p>
                     </div>
                     <div class="tab-pane fade" id="specifications" role="tabpanel">
                         <h5 class="mb-4">Technical Specifications</h5>
@@ -207,60 +215,18 @@
                             <div class="col-md-6">
                                 <table class="table table-bordered">
                                     <tbody>
-                                        <tr>
-                                            <th width="50%" class="bg-light">Cooling Capacity</th>
-                                            <td>1.5 Ton</td>
-                                        </tr>
-                                        <tr>
-                                            <th class="bg-light">Energy Rating</th>
-                                            <td>5 Star</td>
-                                        </tr>
-                                        <tr>
-                                            <th class="bg-light">Type</th>
-                                            <td>Split AC</td>
-                                        </tr>
-                                        <tr>
-                                            <th class="bg-light">Compressor</th>
-                                            <td>Inverter</td>
-                                        </tr>
-                                        <tr>
-                                            <th class="bg-light">Wi-Fi Enabled</th>
-                                            <td>Yes</td>
-                                        </tr>
-                                        <tr>
-                                            <th class="bg-light">Remote Control</th>
-                                            <td>Yes</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="col-md-6">
-                                <table class="table table-bordered">
-                                    <tbody>
-                                        <tr>
-                                            <th width="50%" class="bg-light">Power Consumption</th>
-                                            <td>1500W</td>
-                                        </tr>
-                                        <tr>
-                                            <th class="bg-light">Refrigerant</th>
-                                            <td>R32</td>
-                                        </tr>
-                                        <tr>
-                                            <th class="bg-light">Indoor Unit Dimensions</th>
-                                            <td>80 x 30 x 20 cm</td>
-                                        </tr>
-                                        <tr>
-                                            <th class="bg-light">Outdoor Unit Dimensions</th>
-                                            <td>85 x 35 x 30 cm</td>
-                                        </tr>
-                                        <tr>
-                                            <th class="bg-light">Warranty</th>
-                                            <td>1 Year Product, 10 Years Compressor</td>
-                                        </tr>
-                                        <tr>
-                                            <th class="bg-light">Installation</th>
-                                            <td>Professional Installation Available</td>
-                                        </tr>
+                                        @if(isset($product['specifications']))
+                                            @foreach($product['specifications'] as $key => $value)
+                                                <tr>
+                                                    <th width="50%" class="bg-light">{{ $key }}</th>
+                                                    <td>{{ $value }}</td>
+                                                </tr>
+                                            @endforeach
+                                        @else
+                                            <tr>
+                                                <td colspan="2" class="text-center text-muted">Specifications not available</td>
+                                            </tr>
+                                        @endif
                                     </tbody>
                                 </table>
                             </div>
@@ -270,15 +236,19 @@
                         <div class="row mb-4">
                             <div class="col-md-4 text-center mb-3 mb-md-0">
                                 <div class="p-4 bg-light rounded">
-                                    <h2 class="display-4 fw-bold mb-2">4.5</h2>
+                                    <h2 class="display-4 fw-bold mb-2">{{ $product['rating'] }}</h2>
                                     <div class="text-warning mb-2">
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-half"></i>
+                                        @for($i = 1; $i <= 5; $i++)
+                                            @if($i <= floor($product['rating']))
+                                                <i class="bi bi-star-fill"></i>
+                                            @elseif($i - 0.5 <= $product['rating'])
+                                                <i class="bi bi-star-half"></i>
+                                            @else
+                                                <i class="bi bi-star"></i>
+                                            @endif
+                                        @endfor
                                     </div>
-                                    <p class="text-muted mb-0">Based on 24 reviews</p>
+                                    <p class="text-muted mb-0">Based on {{ $product['reviews'] }} {{ $product['reviews'] == 1 ? 'review' : 'reviews' }}</p>
                                 </div>
                             </div>
                             <div class="col-md-8">

@@ -8,7 +8,7 @@
     <!-- Hero Banner Carousel Section -->
     <section class="hero-banner" aria-label="Hero banner carousel">
         <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
-            <div class="carousel-indicators">
+            <div class="carousel-indicators mt-3">
                 <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
                 <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
                 <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
@@ -44,211 +44,317 @@
         <div class="row text-center g-4">
             <x-category-item name="Air Conditioners" icon="bi-snow" />
             <x-category-item name="LED TVs" icon="bi-tv" />
-            <x-category-item name="Built In Ovens" icon="bi-fire" />
-            <x-category-item name="Refrigerators" icon="bi-box" />
-            <x-category-item name="Washing Machines" icon="bi-droplet" />
-            <x-category-item name="Water Dispensers" icon="bi-cup-straw" />
+            <x-category-item name="Built In Ovens" icon="bi-thermometer-high" />
+            <x-category-item name="Refrigerators" icon="bi-thermometer-snow" />
+            <x-category-item name="Washing Machines" icon="bi-arrow-repeat" />
+            <x-category-item name="Water Dispensers" icon="bi-droplet-fill" />
             <x-category-item name="Air Coolers" icon="bi-wind" />
-            <x-category-item name="Air Fryers" icon="bi-thermometer-half" />
-            <x-category-item name="Deep Freezers" icon="bi-box-seam" />
+            <x-category-item name="Air Fryers" icon="bi-lightning-fill" />
+            <x-category-item name="Deep Freezers" icon="bi-snow" />
             <x-category-item name="Kitchen Hoods" icon="bi-fan" />
-            <x-category-item name="Kitchen Hobs" icon="bi-stove" />
-            <x-category-item name="Kitchen Appliances" icon="bi-grid-3x3-gap" />
+            <x-category-item name="Kitchen Hobs" icon="bi-fire" />
+            <x-category-item name="Kitchen Appliances" icon="bi-app" />
         </div>
     </section>
 
     <!-- Sale Products Section -->
     <section class="container-fluid py-5 bg-white" aria-label="Sale products">
-        <h2 class="section-title">SAB SE BARI ASLI SALE</h2>
-        <div class="row g-3">
-            <div class="col-6 col-md-3">
-                <x-product-card
-                    name="Royal Fans Deluxe Model"
-                    oldPrice="12000"
-                    newPrice="8500"
-                    discount="33"
-                    icon="bi-fan"
-                    :showCart="true"
-                />
-            </div>
-            <div class="col-6 col-md-3">
-                <x-product-card
-                    name="T3 1.5 Ton Inverter AC"
-                    oldPrice="150000"
-                    newPrice="120000"
-                    discount="20"
-                    icon="bi-snow"
-                    :showCart="true"
-                />
-            </div>
-            <div class="col-6 col-md-3">
-                <x-product-card
-                    name="Philips Hair Dryer"
-                    oldPrice="8000"
-                    newPrice="6800"
-                    discount="15"
-                    icon="bi-scissors"
-                    :showCart="true"
-                />
-            </div>
-            <div class="col-6 col-md-3">
-                <x-product-card
-                    name="Panasonic Steam Iron"
-                    oldPrice="12000"
-                    newPrice="9000"
-                    discount="25"
-                    icon="bi-lightning"
-                    :showCart="true"
-                />
+        <div class="px-3 px-md-4 px-lg-5">
+            <h2 class="section-title mb-4">SAB SE BARI ASLI SALE</h2>
+
+            <!-- Products Carousel -->
+            <div id="saleProductsCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
+                <div class="carousel-inner">
+                    <!-- Slide 1 -->
+                    <div class="carousel-item active">
+                        <div class="row g-3 g-md-4">
+                            <div class="col-6 col-md-3">
+                                <x-product-card
+                                    name="Royal Fans Deluxe Model"
+                                    oldPrice="12000"
+                                    newPrice="8500"
+                                    discount="33"
+                                    icon="bi-fan"
+                                    :showCart="true"
+                                />
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <x-product-card
+                                    name="T3 1.5 Ton Inverter AC"
+                                    oldPrice="150000"
+                                    newPrice="120000"
+                                    discount="20"
+                                    icon="bi-snow"
+                                    :showCart="true"
+                                />
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <x-product-card
+                                    name="Philips Hair Dryer"
+                                    oldPrice="8000"
+                                    newPrice="6800"
+                                    discount="15"
+                                    icon="bi-scissors"
+                                    :showCart="true"
+                                />
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <x-product-card
+                                    name="Panasonic Steam Iron"
+                                    oldPrice="12000"
+                                    newPrice="9000"
+                                    discount="25"
+                                    icon="bi-lightning"
+                                    :showCart="true"
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 2 -->
+                    <div class="carousel-item">
+                        <div class="row g-3 g-md-4">
+                            <div class="col-6 col-md-3">
+                                <x-product-card
+                                    name="Haier Refrigerator 300L"
+                                    oldPrice="85000"
+                                    newPrice="68000"
+                                    discount="20"
+                                    icon="bi-snow"
+                                    :showCart="true"
+                                />
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <x-product-card
+                                    name="LG Washing Machine 8kg"
+                                    oldPrice="95000"
+                                    newPrice="75000"
+                                    discount="21"
+                                    icon="bi-droplet"
+                                    :showCart="true"
+                                />
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <x-product-card
+                                    name="Samsung LED TV 43 inch"
+                                    oldPrice="120000"
+                                    newPrice="95000"
+                                    discount="21"
+                                    icon="bi-tv"
+                                    :showCart="true"
+                                />
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <x-product-card
+                                    name="Orient Air Cooler"
+                                    oldPrice="25000"
+                                    newPrice="18000"
+                                    discount="28"
+                                    icon="bi-wind"
+                                    :showCart="true"
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 3 -->
+                    <div class="carousel-item">
+                        <div class="row g-3 g-md-4">
+                            <div class="col-6 col-md-3">
+                                <x-product-card
+                                    name="Dawlance Deep Freezer"
+                                    oldPrice="55000"
+                                    newPrice="42000"
+                                    discount="24"
+                                    icon="bi-snow"
+                                    :showCart="true"
+                                />
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <x-product-card
+                                    name="Gree 1 Ton AC"
+                                    oldPrice="90000"
+                                    newPrice="72000"
+                                    discount="20"
+                                    icon="bi-snow"
+                                    :showCart="true"
+                                />
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <x-product-card
+                                    name="Haier Microwave Oven"
+                                    oldPrice="18000"
+                                    newPrice="14000"
+                                    discount="22"
+                                    icon="bi-fire"
+                                    :showCart="true"
+                                />
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <x-product-card
+                                    name="Philips Blender"
+                                    oldPrice="12000"
+                                    newPrice="9500"
+                                    discount="21"
+                                    icon="bi-lightning"
+                                    :showCart="true"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Carousel Controls -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#saleProductsCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#saleProductsCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+
+                <!-- Carousel Indicators -->
+                <div class="carousel-indicators mt-3">
+                    <button type="button" data-bs-target="#saleProductsCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#saleProductsCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#saleProductsCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Refrigerators Section -->
-    <section class="container-fluid py-5" aria-label="Refrigerators">
-        <h2 class="section-title">Refrigerators</h2>
-        <div class="row g-3">
-            <div class="col-6 col-md-3">
-                <div class="product-card p-3 text-center">
-                    <x-discount-badge discount="-5%" />
-                    <div class="product-image-placeholder tall mb-3">
-                        <i class="bi bi-box" aria-hidden="true"></i>
-                    </div>
-                    <h6 class="text-truncate">Dawlance no Frost Ref DMD-9060 GD</h6>
-                    <div class="text-warning mb-2">
-                        <i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-half" aria-hidden="true"></i>
-                        <small class="text-muted">(1 review)</small>
-                    </div>
-                    <div class="mb-2">
-                        <span class="old-price">Rs. 260,000</span>
-                        <span class="new-price ms-2">Rs. 250,000</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="product-card p-3 text-center">
-                    <x-discount-badge discount="-6%" />
-                    <div class="product-image-placeholder tall mb-3">
-                        <i class="bi bi-box" aria-hidden="true"></i>
-                    </div>
-                    <h6 class="text-truncate">LG Refrigerator Side By Side GC-X29FFLRB</h6>
-                    <div class="text-warning mb-2">
-                        <i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star" aria-hidden="true"></i>
-                        <small class="text-muted">(2 reviews)</small>
-                    </div>
-                    <div class="mb-2">
-                        <span class="old-price">Rs. 320,000</span>
-                        <span class="new-price ms-2">Rs. 310,000</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="product-card p-3 text-center">
-                    <x-discount-badge discount="-14%" />
-                    <div class="product-image-placeholder tall mb-3">
-                        <i class="bi bi-box" aria-hidden="true"></i>
-                    </div>
-                    <h6 class="text-truncate">Haier French Door</h6>
-                    <div class="text-warning mb-2">
-                        <i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-half" aria-hidden="true"></i><i class="bi bi-star" aria-hidden="true"></i>
-                        <small class="text-muted">(1 review)</small>
-                    </div>
-                    <div class="mb-2">
-                        <span class="old-price">Rs. 120,000</span>
-                        <span class="new-price ms-2">Rs. 115,000</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="product-card p-3 text-center">
-                    <x-discount-badge discount="-17%" />
-                    <div class="product-image-placeholder tall mb-3">
-                        <i class="bi bi-box" aria-hidden="true"></i>
-                    </div>
-                    <h6 class="text-truncate">Pel Single Door</h6>
-                    <div class="text-warning mb-2">
-                        <i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-fill" aria-hidden="true"></i>
-                        <small class="text-muted">(3 reviews)</small>
-                    </div>
-                    <div class="mb-2">
-                        <span class="old-price">Rs. 78,000</span>
-                        <span class="new-price ms-2">Rs. 65,000</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Geyser Section -->
-    <section class="container-fluid py-5 bg-white" aria-label="Geysers">
-        <h2 class="section-title">Geyser</h2>
-        <div class="row g-3">
-            <div class="col-6 col-md-3">
-                <div class="product-card p-3 text-center">
-                    <x-discount-badge discount="-5%" />
-                    <div class="product-image-placeholder tall mb-3">
-                        <i class="bi bi-droplet-fill" aria-hidden="true"></i>
+
+    <!-- Popular Brands Section -->
+    <section class="container-fluid py-5 bg-white" aria-label="Popular Brands">
+        <div class="px-3 px-md-4 px-lg-5">
+            <h2 class="section-title mb-4">Popular Brands</h2>
+
+            <!-- Brands Carousel -->
+            <div id="brandsCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3500">
+                <div class="carousel-inner">
+                    <!-- Slide 1 -->
+                    <div class="carousel-item active">
+                        <div class="row g-3 g-md-4">
+                            @php
+                                $brands1 = [
+                                    ['name' => 'Haier', 'slug' => 'haier-ac', 'icon' => 'bi-building'],
+                                    ['name' => 'LG', 'slug' => 'lg-ac', 'icon' => 'bi-building'],
+                                    ['name' => 'Samsung', 'slug' => 'samsung-tv', 'icon' => 'bi-building'],
+                                    ['name' => 'Dawlance', 'slug' => 'dawlance-refrigerator', 'icon' => 'bi-building'],
+                                ];
+                            @endphp
+                            @foreach($brands1 as $brand)
+                                <div class="col-6 col-md-3">
+                                    <a href="{{ route('products.brand', $brand['slug']) }}" class="text-decoration-none">
+                                        <div class="brand-card p-4 text-center h-100">
+                                            <div class="brand-icon mb-3">
+                                                <i class="bi {{ $brand['icon'] }}" style="font-size: 60px; color: var(--brand-blue);"></i>
+                                            </div>
+                                            <h5 class="text-dark mb-0 fw-bold">{{ $brand['name'] }}</h5>
+                                        </div>
+                                    </a>
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
-                    <h6 class="text-truncate">Beetro Electric & Gas Geyser 55 Gallon</h6>
-                    <div class="text-warning mb-2">
-                        <i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star" aria-hidden="true"></i><i class="bi bi-star" aria-hidden="true"></i>
-                        <small class="text-muted">(1 review)</small>
+
+                    <!-- Slide 2 -->
+                    <div class="carousel-item">
+                        <div class="row g-3 g-md-4">
+                            @php
+                                $brands2 = [
+                                    ['name' => 'Philips', 'slug' => 'philips-iron', 'icon' => 'bi-building'],
+                                    ['name' => 'Panasonic', 'slug' => 'panasonic-iron', 'icon' => 'bi-building'],
+                                    ['name' => 'Orient', 'slug' => 'orient-ac', 'icon' => 'bi-building'],
+                                    ['name' => 'Gree', 'slug' => 'gree-ac', 'icon' => 'bi-building'],
+                                ];
+                            @endphp
+                            @foreach($brands2 as $brand)
+                                <div class="col-6 col-md-3">
+                                    <a href="{{ route('products.brand', $brand['slug']) }}" class="text-decoration-none">
+                                        <div class="brand-card p-4 text-center h-100">
+                                            <div class="brand-icon mb-3">
+                                                <i class="bi {{ $brand['icon'] }}" style="font-size: 60px; color: var(--brand-blue);"></i>
+                                            </div>
+                                            <h5 class="text-dark mb-0 fw-bold">{{ $brand['name'] }}</h5>
+                                        </div>
+                                    </a>
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
-                    <div class="mb-2">
-                        <span class="old-price">Rs. 19,500</span>
-                        <span class="new-price ms-2">Rs. 18,500</span>
+
+                    <!-- Slide 3 -->
+                    <div class="carousel-item">
+                        <div class="row g-3 g-md-4">
+                            @php
+                                $brands3 = [
+                                    ['name' => 'Nasgas', 'slug' => 'nasgas-geyser', 'icon' => 'bi-building'],
+                                    ['name' => 'Beetro', 'slug' => 'beetro-geyser', 'icon' => 'bi-building'],
+                                    ['name' => 'Singer', 'slug' => 'singer-geyser', 'icon' => 'bi-building'],
+                                    ['name' => 'Canon', 'slug' => 'canon-geyser', 'icon' => 'bi-building'],
+                                ];
+                            @endphp
+                            @foreach($brands3 as $brand)
+                                <div class="col-6 col-md-3">
+                                    <a href="{{ route('products.brand', $brand['slug']) }}" class="text-decoration-none">
+                                        <div class="brand-card p-4 text-center h-100">
+                                            <div class="brand-icon mb-3">
+                                                <i class="bi {{ $brand['icon'] }}" style="font-size: 60px; color: var(--brand-blue);"></i>
+                                            </div>
+                                            <h5 class="text-dark mb-0 fw-bold">{{ $brand['name'] }}</h5>
+                                        </div>
+                                    </a>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    <!-- Slide 4 -->
+                    <div class="carousel-item">
+                        <div class="row g-3 g-md-4">
+                            @php
+                                $brands4 = [
+                                    ['name' => 'TCL', 'slug' => 'tcl-tv', 'icon' => 'bi-building'],
+                                    ['name' => 'Sony', 'slug' => 'sony-tv', 'icon' => 'bi-building'],
+                                    ['name' => 'Remington', 'slug' => 'remington-personal-care', 'icon' => 'bi-building'],
+                                    ['name' => 'Braun', 'slug' => 'braun-personal-care', 'icon' => 'bi-building'],
+                                ];
+                            @endphp
+                            @foreach($brands4 as $brand)
+                                <div class="col-6 col-md-3">
+                                    <a href="{{ route('products.brand', $brand['slug']) }}" class="text-decoration-none">
+                                        <div class="brand-card p-4 text-center h-100">
+                                            <div class="brand-icon mb-3">
+                                                <i class="bi {{ $brand['icon'] }}" style="font-size: 60px; color: var(--brand-blue);"></i>
+                                            </div>
+                                            <h5 class="text-dark mb-0 fw-bold">{{ $brand['name'] }}</h5>
+                                        </div>
+                                    </a>
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="product-card p-3 text-center">
-                    <x-discount-badge discount="-9%" />
-                    <div class="product-image-placeholder tall mb-3">
-                        <i class="bi bi-droplet-fill" aria-hidden="true"></i>
-                    </div>
-                    <h6 class="text-truncate">Nasgas Electric Geyser NEG-80</h6>
-                    <div class="text-warning mb-2">
-                        <i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star" aria-hidden="true"></i>
-                        <small class="text-muted">(2 reviews)</small>
-                    </div>
-                    <div class="mb-2">
-                        <span class="old-price">Rs. 30,000</span>
-                        <span class="new-price ms-2">Rs. 28,000</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="product-card p-3 text-center">
-                    <x-discount-badge discount="-5%" />
-                    <div class="product-image-placeholder tall mb-3">
-                        <i class="bi bi-droplet-fill" aria-hidden="true"></i>
-                    </div>
-                    <h6 class="text-truncate">Canon Electric Geyser</h6>
-                    <div class="text-warning mb-2">
-                        <i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-half" aria-hidden="true"></i><i class="bi bi-star" aria-hidden="true"></i>
-                        <small class="text-muted">(1 review)</small>
-                    </div>
-                    <div class="mb-2">
-                        <span class="old-price">Rs. 37,000</span>
-                        <span class="new-price ms-2">Rs. 35,000</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="product-card p-3 text-center">
-                    <x-discount-badge discount="-9%" />
-                    <div class="product-image-placeholder tall mb-3">
-                        <i class="bi bi-droplet-fill" aria-hidden="true"></i>
-                    </div>
-                    <h6 class="text-truncate">Singer Gas Geyser</h6>
-                    <div class="text-warning mb-2">
-                        <i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-fill" aria-hidden="true"></i>
-                        <small class="text-muted">(4 reviews)</small>
-                    </div>
-                    <div class="mb-2">
-                        <span class="old-price">Rs. 24,000</span>
-                        <span class="new-price ms-2">Rs. 22,000</span>
-                    </div>
+
+                <!-- Carousel Controls -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#brandsCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#brandsCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+
+                <!-- Carousel Indicators -->
+                <div class="carousel-indicators mt-3">
+                    <button type="button" data-bs-target="#brandsCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#brandsCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#brandsCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    <button type="button" data-bs-target="#brandsCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
                 </div>
             </div>
         </div>
