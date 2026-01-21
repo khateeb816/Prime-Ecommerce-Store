@@ -41,23 +41,26 @@
     <!-- All Categories Section -->
     <section class="container-fluid py-5" aria-label="Product categories">
         <h2 class="section-title">ALL CATEGORIES</h2>
-        <div class="row text-center g-4">
-            <x-category-item name="Air Conditioners" icon="bi-snow" />
-            <x-category-item name="LED TVs" icon="bi-tv" />
-            <x-category-item name="Built In Ovens" icon="bi-thermometer-high" />
-            <x-category-item name="Refrigerators" icon="bi-thermometer-snow" />
-            <x-category-item name="Washing Machines" icon="bi-arrow-repeat" />
-            <x-category-item name="Water Dispensers" icon="bi-droplet-fill" />
-            <x-category-item name="Air Coolers" icon="bi-wind" />
-            <x-category-item name="Air Fryers" icon="bi-lightning-fill" />
-            <x-category-item name="Deep Freezers" icon="bi-snow" />
-            <x-category-item name="Kitchen Hoods" icon="bi-fan" />
-            <x-category-item name="Kitchen Hobs" icon="bi-fire" />
-            <x-category-item name="Kitchen Appliances" icon="bi-app" />
+        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 text-center g-4 justify-content-center">
+            @forelse($categories as $category)
+                <div class="col">
+                     <a href="{{ route('products.category', $category->slug) }}" class="text-decoration-none text-dark">
+                        <div class="category-card p-3 h-100 border rounded shadow-sm hover-effect">
+                            <div class="fs-1 mb-2 text-dark">
+                                <i class="bi {{ $category->icon ?: 'bi-grid-fill' }}"></i>
+                            </div>
+                            <h6 class="fw-bold">{{ $category->name }}</h6>
+                        </div>
+                     </a>
+                </div>
+            @empty
+                <div class="col-12"><p class="text-muted">No categories available.</p></div>
+            @endforelse
         </div>
     </section>
 
     <!-- Sale Products Section -->
+    @if($saleProducts->isNotEmpty())
     <section class="container-fluid py-5 bg-white" aria-label="Sale products">
         <div class="px-3 px-md-4 px-lg-5">
             <h2 class="section-title mb-4">SAB SE BARI ASLI SALE</h2>
@@ -65,297 +68,89 @@
             <!-- Products Carousel -->
             <div id="saleProductsCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
                 <div class="carousel-inner">
-                    <!-- Slide 1 -->
-                    <div class="carousel-item active">
-                        <div class="row g-3 g-md-4">
-                            <div class="col-6 col-md-3">
-                                <x-product-card
-                                    name="Royal Fans Deluxe Model"
-                                    oldPrice="12000"
-                                    newPrice="8500"
-                                    discount="33"
-                                    icon="bi-fan"
-                                    :showCart="true"
-                                />
-                            </div>
-                            <div class="col-6 col-md-3">
-                                <x-product-card
-                                    name="T3 1.5 Ton Inverter AC"
-                                    oldPrice="150000"
-                                    newPrice="120000"
-                                    discount="20"
-                                    icon="bi-snow"
-                                    :showCart="true"
-                                />
-                            </div>
-                            <div class="col-6 col-md-3">
-                                <x-product-card
-                                    name="Philips Hair Dryer"
-                                    oldPrice="8000"
-                                    newPrice="6800"
-                                    discount="15"
-                                    icon="bi-scissors"
-                                    :showCart="true"
-                                />
-                            </div>
-                            <div class="col-6 col-md-3">
-                                <x-product-card
-                                    name="Panasonic Steam Iron"
-                                    oldPrice="12000"
-                                    newPrice="9000"
-                                    discount="25"
-                                    icon="bi-lightning"
-                                    :showCart="true"
-                                />
+                    @foreach($saleProducts->chunk(4) as $index => $chunk)
+                        <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                            <div class="row g-3 g-md-4">
+                                @foreach($chunk as $product)
+                                    <div class="col-6 col-md-3">
+                                        <x-product-card
+                                            :id="$product->id"
+                                            :name="$product->name"
+                                            :price="$product->sale_price ?? $product->price"
+                                            :oldPrice="$product->sale_price ? $product->price : null"
+                                            :discount="$product->discount_percent"
+                                            :image="$product->image"
+                                            :rating="$product->rating ?? 0"
+                                            :reviews="$product->reviews->count()"
+                                            :showCart="true"
+                                            :slug="$product->slug"
+                                        />
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
-                    </div>
-
-                    <!-- Slide 2 -->
-                    <div class="carousel-item">
-                        <div class="row g-3 g-md-4">
-                            <div class="col-6 col-md-3">
-                                <x-product-card
-                                    name="Haier Refrigerator 300L"
-                                    oldPrice="85000"
-                                    newPrice="68000"
-                                    discount="20"
-                                    icon="bi-snow"
-                                    :showCart="true"
-                                />
-                            </div>
-                            <div class="col-6 col-md-3">
-                                <x-product-card
-                                    name="LG Washing Machine 8kg"
-                                    oldPrice="95000"
-                                    newPrice="75000"
-                                    discount="21"
-                                    icon="bi-droplet"
-                                    :showCart="true"
-                                />
-                            </div>
-                            <div class="col-6 col-md-3">
-                                <x-product-card
-                                    name="Samsung LED TV 43 inch"
-                                    oldPrice="120000"
-                                    newPrice="95000"
-                                    discount="21"
-                                    icon="bi-tv"
-                                    :showCart="true"
-                                />
-                            </div>
-                            <div class="col-6 col-md-3">
-                                <x-product-card
-                                    name="Orient Air Cooler"
-                                    oldPrice="25000"
-                                    newPrice="18000"
-                                    discount="28"
-                                    icon="bi-wind"
-                                    :showCart="true"
-                                />
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Slide 3 -->
-                    <div class="carousel-item">
-                        <div class="row g-3 g-md-4">
-                            <div class="col-6 col-md-3">
-                                <x-product-card
-                                    name="Dawlance Deep Freezer"
-                                    oldPrice="55000"
-                                    newPrice="42000"
-                                    discount="24"
-                                    icon="bi-snow"
-                                    :showCart="true"
-                                />
-                            </div>
-                            <div class="col-6 col-md-3">
-                                <x-product-card
-                                    name="Gree 1 Ton AC"
-                                    oldPrice="90000"
-                                    newPrice="72000"
-                                    discount="20"
-                                    icon="bi-snow"
-                                    :showCart="true"
-                                />
-                            </div>
-                            <div class="col-6 col-md-3">
-                                <x-product-card
-                                    name="Haier Microwave Oven"
-                                    oldPrice="18000"
-                                    newPrice="14000"
-                                    discount="22"
-                                    icon="bi-fire"
-                                    :showCart="true"
-                                />
-                            </div>
-                            <div class="col-6 col-md-3">
-                                <x-product-card
-                                    name="Philips Blender"
-                                    oldPrice="12000"
-                                    newPrice="9500"
-                                    discount="21"
-                                    icon="bi-lightning"
-                                    :showCart="true"
-                                />
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
 
                 <!-- Carousel Controls -->
                 <button class="carousel-control-prev" type="button" data-bs-target="#saleProductsCarousel" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="carousel-control-prev-icon bg-dark rounded-circle" aria-hidden="true"></span>
                     <span class="visually-hidden">Previous</span>
                 </button>
                 <button class="carousel-control-next" type="button" data-bs-target="#saleProductsCarousel" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="carousel-control-next-icon bg-dark rounded-circle" aria-hidden="true"></span>
                     <span class="visually-hidden">Next</span>
                 </button>
-
-                <!-- Carousel Indicators -->
-                <div class="carousel-indicators mt-3">
-                    <button type="button" data-bs-target="#saleProductsCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#saleProductsCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                    <button type="button" data-bs-target="#saleProductsCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                </div>
             </div>
         </div>
     </section>
-
-
+    @endif
 
     <!-- Popular Brands Section -->
-    <section class="container-fluid py-5 bg-white" aria-label="Popular Brands">
+    <section class="container-fluid py-5 bg-light" aria-label="Popular Brands">
         <div class="px-3 px-md-4 px-lg-5">
             <h2 class="section-title mb-4">Popular Brands</h2>
-
-            <!-- Brands Carousel -->
+            
+             <!-- Brands Carousel -->
             <div id="brandsCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3500">
                 <div class="carousel-inner">
-                    <!-- Slide 1 -->
-                    <div class="carousel-item active">
-                        <div class="row g-3 g-md-4">
-                            @php
-                                $brands1 = [
-                                    ['name' => 'Haier', 'slug' => 'haier-ac', 'icon' => 'bi-building'],
-                                    ['name' => 'LG', 'slug' => 'lg-ac', 'icon' => 'bi-building'],
-                                    ['name' => 'Samsung', 'slug' => 'samsung-tv', 'icon' => 'bi-building'],
-                                    ['name' => 'Dawlance', 'slug' => 'dawlance-refrigerator', 'icon' => 'bi-building'],
-                                ];
-                            @endphp
-                            @foreach($brands1 as $brand)
-                                <div class="col-6 col-md-3">
-                                    <a href="{{ route('products.brand', $brand['slug']) }}" class="text-decoration-none">
-                                        <div class="brand-card p-4 text-center h-100">
-                                            <div class="brand-icon mb-3">
-                                                <i class="bi {{ $brand['icon'] }}" style="font-size: 60px; color: var(--brand-blue);"></i>
+                    @forelse($brands->chunk(4) as $index => $chunk)
+                        <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                            <div class="row g-3 g-md-4">
+                                @foreach($chunk as $brand)
+                                    <div class="col-6 col-md-3">
+                                        <a href="{{ route('products.brand', $brand->slug) }}" class="text-decoration-none">
+                                            <div class="brand-card p-4 text-center h-100 bg-white rounded shadow-sm">
+                                                <div class="brand-icon mb-3">
+                                                    @if($brand->icon)
+                                                        <img src="{{ asset('storage/' . $brand->icon) }}" alt="{{ $brand->name }}" style="height: 60px; object-fit: contain;">
+                                                    @else
+                                                        <i class="bi bi-building" style="font-size: 60px; color: var(--brand-blue);"></i>
+                                                    @endif
+                                                </div>
+                                                <h5 class="text-dark mb-0 fw-bold">{{ $brand->name }}</h5>
                                             </div>
-                                            <h5 class="text-dark mb-0 fw-bold">{{ $brand['name'] }}</h5>
-                                        </div>
-                                    </a>
-                                </div>
-                            @endforeach
+                                        </a>
+                                    </div>
+                                @endforeach
+                            </div>
                         </div>
-                    </div>
-
-                    <!-- Slide 2 -->
-                    <div class="carousel-item">
-                        <div class="row g-3 g-md-4">
-                            @php
-                                $brands2 = [
-                                    ['name' => 'Philips', 'slug' => 'philips-iron', 'icon' => 'bi-building'],
-                                    ['name' => 'Panasonic', 'slug' => 'panasonic-iron', 'icon' => 'bi-building'],
-                                    ['name' => 'Orient', 'slug' => 'orient-ac', 'icon' => 'bi-building'],
-                                    ['name' => 'Gree', 'slug' => 'gree-ac', 'icon' => 'bi-building'],
-                                ];
-                            @endphp
-                            @foreach($brands2 as $brand)
-                                <div class="col-6 col-md-3">
-                                    <a href="{{ route('products.brand', $brand['slug']) }}" class="text-decoration-none">
-                                        <div class="brand-card p-4 text-center h-100">
-                                            <div class="brand-icon mb-3">
-                                                <i class="bi {{ $brand['icon'] }}" style="font-size: 60px; color: var(--brand-blue);"></i>
-                                            </div>
-                                            <h5 class="text-dark mb-0 fw-bold">{{ $brand['name'] }}</h5>
-                                        </div>
-                                    </a>
-                                </div>
-                            @endforeach
+                    @empty
+                         <div class="carousel-item active">
+                            <div class="col-12"><p class="text-muted text-center">No brands feature yet.</p></div>
                         </div>
-                    </div>
-
-                    <!-- Slide 3 -->
-                    <div class="carousel-item">
-                        <div class="row g-3 g-md-4">
-                            @php
-                                $brands3 = [
-                                    ['name' => 'Nasgas', 'slug' => 'nasgas-geyser', 'icon' => 'bi-building'],
-                                    ['name' => 'Beetro', 'slug' => 'beetro-geyser', 'icon' => 'bi-building'],
-                                    ['name' => 'Singer', 'slug' => 'singer-geyser', 'icon' => 'bi-building'],
-                                    ['name' => 'Canon', 'slug' => 'canon-geyser', 'icon' => 'bi-building'],
-                                ];
-                            @endphp
-                            @foreach($brands3 as $brand)
-                                <div class="col-6 col-md-3">
-                                    <a href="{{ route('products.brand', $brand['slug']) }}" class="text-decoration-none">
-                                        <div class="brand-card p-4 text-center h-100">
-                                            <div class="brand-icon mb-3">
-                                                <i class="bi {{ $brand['icon'] }}" style="font-size: 60px; color: var(--brand-blue);"></i>
-                                            </div>
-                                            <h5 class="text-dark mb-0 fw-bold">{{ $brand['name'] }}</h5>
-                                        </div>
-                                    </a>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-
-                    <!-- Slide 4 -->
-                    <div class="carousel-item">
-                        <div class="row g-3 g-md-4">
-                            @php
-                                $brands4 = [
-                                    ['name' => 'TCL', 'slug' => 'tcl-tv', 'icon' => 'bi-building'],
-                                    ['name' => 'Sony', 'slug' => 'sony-tv', 'icon' => 'bi-building'],
-                                    ['name' => 'Remington', 'slug' => 'remington-personal-care', 'icon' => 'bi-building'],
-                                    ['name' => 'Braun', 'slug' => 'braun-personal-care', 'icon' => 'bi-building'],
-                                ];
-                            @endphp
-                            @foreach($brands4 as $brand)
-                                <div class="col-6 col-md-3">
-                                    <a href="{{ route('products.brand', $brand['slug']) }}" class="text-decoration-none">
-                                        <div class="brand-card p-4 text-center h-100">
-                                            <div class="brand-icon mb-3">
-                                                <i class="bi {{ $brand['icon'] }}" style="font-size: 60px; color: var(--brand-blue);"></i>
-                                            </div>
-                                            <h5 class="text-dark mb-0 fw-bold">{{ $brand['name'] }}</h5>
-                                        </div>
-                                    </a>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
+                    @endforelse
                 </div>
 
                 <!-- Carousel Controls -->
                 <button class="carousel-control-prev" type="button" data-bs-target="#brandsCarousel" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="carousel-control-prev-icon bg-dark rounded-circle" aria-hidden="true"></span>
                     <span class="visually-hidden">Previous</span>
                 </button>
                 <button class="carousel-control-next" type="button" data-bs-target="#brandsCarousel" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="carousel-control-next-icon bg-dark rounded-circle" aria-hidden="true"></span>
                     <span class="visually-hidden">Next</span>
                 </button>
-
-                <!-- Carousel Indicators -->
-                <div class="carousel-indicators mt-3">
-                    <button type="button" data-bs-target="#brandsCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#brandsCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                    <button type="button" data-bs-target="#brandsCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                    <button type="button" data-bs-target="#brandsCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
-                </div>
             </div>
         </div>
     </section>
@@ -383,36 +178,23 @@
     </section>
 
     <!-- Testimonials Section -->
+    @if($reviews->isNotEmpty())
     <section class="container-fluid py-5 text-center" aria-label="Customer testimonials">
         <h2 class="section-title">Let customers speak for us</h2>
-        <div class="text-warning mb-4">
-            <i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-half" aria-hidden="true"></i>
-            <span class="text-dark">from 2579 reviews</span>
-        </div>
-
+        
         <div id="testimonialCarousel" class="carousel slide bg-white shadow-sm p-5 rounded" data-bs-ride="carousel">
             <div class="carousel-inner">
-                <div class="carousel-item active">
+                @foreach($reviews as $index => $review)
+                <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
                     <div class="text-warning mb-2">
-                        <i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-fill" aria-hidden="true"></i>
+                        @for($i=0; $i < $review->rating; $i++)
+                            <i class="bi bi-star-fill" aria-hidden="true"></i>
+                        @endfor
                     </div>
-                    <p class="lead fst-italic">"I am satisfied with their service, and their prices are also much better compared to the market."</p>
-                    <h6 class="mt-3">- Qazi Sajid</h6>
+                    <p class="lead fst-italic">"{{ Str::limit($review->comment, 150) }}"</p>
+                    <h6 class="mt-3">- {{ $review->user ? $review->user->name : 'Customer' }}</h6>
                 </div>
-                <div class="carousel-item">
-                    <div class="text-warning mb-2">
-                        <i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-fill" aria-hidden="true"></i>
-                    </div>
-                    <p class="lead fst-italic">"I have purchased multiple products from Prime, kamra and online. Delivery charges are too high but service is good."</p>
-                    <h6 class="mt-3">- Arif</h6>
-                </div>
-                <div class="carousel-item">
-                    <div class="text-warning mb-2">
-                        <i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-fill" aria-hidden="true"></i>
-                    </div>
-                    <p class="lead fst-italic">"Good I will 5 star to enush ... Prime."</p>
-                    <h6 class="mt-3">- Kashif raza</h6>
-                </div>
+                @endforeach
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev" aria-label="Previous testimonial">
                 <span class="carousel-control-prev-icon bg-dark rounded-circle" aria-hidden="true"></span>
@@ -424,4 +206,17 @@
             </button>
         </div>
     </section>
+    @endif
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var saleCarousel = new bootstrap.Carousel(document.getElementById('saleProductsCarousel'), {
+                interval: 4000,
+                ride: 'carousel'
+            });
+            var brandsCarousel = new bootstrap.Carousel(document.getElementById('brandsCarousel'), {
+                interval: 3500,
+                ride: 'carousel'
+            });
+        });
+    </script>
 @endsection

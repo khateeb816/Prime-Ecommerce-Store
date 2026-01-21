@@ -19,14 +19,25 @@
 
                 <!-- Header Icons - Mobile: Full width, Tablet/Desktop: Auto, Right aligned on desktop -->
                 <div class="col-12 col-md-auto col-lg-auto order-2 order-md-3 order-lg-3 d-flex align-items-center justify-content-center justify-content-md-end justify-content-lg-end ms-md-auto ms-lg-auto header-icons gap-3 gap-md-2">
-                    <a href="{{ route('user.dashboard') }}" class="text-dark header-icon-link"><i class="bi bi-person-circle"></i></a>
+                    @if(auth()->check() && auth()->user()->role === 'admin')
+                        <a href="{{ route('backend.dashboard') }}" class="text-dark header-icon-link" title="Admin Panel"><i class="bi bi-speedometer2"></i></a>
+                    @endif
+                    <a href="{{ route('user.dashboard') }}" class="text-dark header-icon-link" title="My Account"><i class="bi bi-person-circle"></i></a>
                     <a href="{{ route('user.wishlist') }}" class="text-dark header-icon-link position-relative">
                         <i class="bi bi-heart"></i>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.6rem;">12</span>
+                        @if(auth()->check() && auth()->user()->wishlist()->count() > 0)
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.6rem;">
+                                {{ auth()->user()->wishlist()->count() }}
+                            </span>
+                        @endif
                     </a>
                     <a href="{{ route('cart.index') }}" class="text-dark header-icon-link position-relative">
                         <i class="bi bi-cart3"></i>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.6rem;">0</span>
+                        @if(session('cart') && count(session('cart')) > 0)
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.6rem;">
+                                {{ count(session('cart')) }}
+                            </span>
+                        @endif
                     </a>
                     <button class="navbar-toggler header-icon-link d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
@@ -47,9 +58,9 @@
                 </div>
                 <div class="text-white d-flex flex-column flex-lg-row justify-content-start align-items-center gap-4 fw-light fs-6 py-2">
                     <span class="d-flex align-items-center mobile-category-trigger" style="cursor: pointer;"><i class="bi bi-list me-1"></i> SHOP BY CATEGORY</span>
-                    <a href="{{ route('mobiles') }}" class="text-white text-decoration-none d-flex align-items-center">Mobiles</a>
-                        <a href="{{ route('electronics') }}" class="text-white text-decoration-none d-flex align-items-center">Electronics</a>
-                    <a href="{{ route('bikes') }}" class="text-white text-decoration-none d-flex align-items-center">Bikes</a>
+                    <a href="{{ url('products/category/mobiles') }}" class="text-white text-decoration-none d-flex align-items-center">Mobiles</a>
+                        <a href="{{ url('products/category/electronics') }}" class="text-white text-decoration-none d-flex align-items-center">Electronics</a>
+                    <a href="{{ url('products/category/bikes') }}" class="text-white text-decoration-none d-flex align-items-center">Bikes</a>
                     <a href="{{ route('store-location') }}" class="text-white text-decoration-none d-flex align-items-center">Store Location</a>
                     <a href="{{ route('about') }}" class="text-white text-decoration-none d-flex align-items-center">About Us</a>
                     <a href="{{ route('home') }}" class="text-white text-decoration-none text-brand-red d-flex align-items-center">SAB SE BARI ASLI SALE - ANNUAL SALE</a>
@@ -58,9 +69,9 @@
             <div class="d-none d-lg-block">
                 <div class="text-white d-flex justify-content-start align-items-center gap-4 fw-light fs-6 py-2">
                     <span class="category-trigger position-relative d-flex align-items-center"><i class="bi bi-list me-1"></i> SHOP BY CATEGORY</span>
-                    <a href="{{ route('mobiles') }}" class="text-white text-decoration-none d-flex align-items-center">Mobiles</a>
-                    <a href="{{ route('electronics') }}" class="text-white text-decoration-none d-flex align-items-center">Electronics</a>
-                    <a href="{{ route('bikes') }}" class="text-white text-decoration-none d-flex align-items-center">Bikes</a>
+                    <a href="{{ url('products/category/mobiles') }}" class="text-white text-decoration-none d-flex align-items-center">Mobiles</a>
+                    <a href="{{ url('products/category/electronics') }}" class="text-white text-decoration-none d-flex align-items-center">Electronics</a>
+                    <a href="{{ url('products/category/bikes') }}" class="text-white text-decoration-none d-flex align-items-center">Bikes</a>
                     <a href="{{ route('store-location') }}" class="text-white text-decoration-none d-flex align-items-center">Store Location</a>
                     <a href="{{ route('about') }}" class="text-white text-decoration-none d-flex align-items-center">About Us</a>
                     <a href="{{ route('home') }}" class="text-white text-decoration-none text-brand-red d-flex align-items-center">SAB SE BARI ASLI SALE - ANNUAL SALE</a>

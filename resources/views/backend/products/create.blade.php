@@ -4,108 +4,201 @@
 @section('page-title', 'Add Product')
 
 @section('content')
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="white-box">
-                <form method="POST" action="{{ route('backend.products.store') }}" enctype="multipart/form-data">
-                    @csrf
-                    <div class="row">
-                        <div class="col-md-8">
-                            <div class="mb-3">
-                                <label class="form-label">Product Name *</label>
-                                <input type="text" class="form-control" name="name" required>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <label class="form-label">Description</label>
-                                <textarea class="form-control" name="description" rows="5"></textarea>
-                            </div>
-                            
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Price *</label>
-                                        <input type="number" class="form-control" name="price" required>
-                                    </div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="white-box p-4">
+            <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
+                <h3 class="box-title mb-0">Create New Product</h3>
+                <a href="{{ route('backend.products.index') }}" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left me-2"></i>Back to List
+                </a>
+            </div>
+
+            <form method="POST" action="{{ route('backend.products.store') }}" enctype="multipart/form-data">
+                @csrf
+                <div class="row">
+                    <!-- Left Column: Core Data -->
+                    <div class="col-md-8">
+                        <div class="card border-0 bg-light mb-4 text-dark">
+                            <div class="card-body">
+                                <h5 class="fw-bold mb-3">Basic Information</h5>
+                                <div class="mb-3">
+                                    <label class="form-label text-muted small text-uppercase fw-bold">Product Name *</label>
+                                    <input type="text" class="form-control" name="name" value="{{ old('name') }}" required placeholder="e.g. Haier HSU-18HF 1.5 Ton DC Inverter">
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Old Price</label>
-                                        <input type="number" class="form-control" name="old_price">
-                                    </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label text-muted small text-uppercase fw-bold">Description</label>
+                                    <textarea class="form-control" name="description" rows="5" placeholder="Detailed product features...">{{ old('description') }}</textarea>
                                 </div>
-                            </div>
-                            
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Category *</label>
+
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label text-muted small text-uppercase fw-bold">Model / Serial</label>
+                                        <input type="text" class="form-control" name="model" value="{{ old('model') }}" placeholder="e.g. HSU-18HF">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label text-muted small text-uppercase fw-bold">Category *</label>
                                         <select class="form-select" name="category_id" required>
                                             <option value="">Select Category</option>
-                                            <option value="1">Air Conditioner</option>
-                                            <option value="2">Refrigerator</option>
-                                            <option value="3">LED TV</option>
-                                            <option value="4">Washing Machine</option>
+                                            @foreach($categories as $category)
+                                                <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                                    {{ $category->name }}
+                                                </option>
+                                            @endforeach
                                         </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Brand</label>
-                                        <input type="text" class="form-control" name="brand">
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Stock Quantity *</label>
-                                        <input type="number" class="form-control" name="stock" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">SKU</label>
-                                        <input type="text" class="form-control" name="sku">
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                <label class="form-label">Product Image</label>
-                                <input type="file" class="form-control" name="image" accept="image/*">
-                                <small class="text-muted">Upload product image</small>
+
+                        <div class="card border-0 bg-light mb-4 text-dark">
+                            <div class="card-body">
+                                <h5 class="fw-bold mb-3">Pricing & Inventory</h5>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label text-muted small text-uppercase fw-bold">Price (Rs.) *</label>
+                                        <input type="number" class="form-control" name="price" value="{{ old('price') }}" required placeholder="0">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label text-muted small text-uppercase fw-bold">Old Price (Rs.)</label>
+                                        <input type="number" class="form-control" name="old_price" value="{{ old('old_price') }}" placeholder="0">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label text-muted small text-uppercase fw-bold">Brand</label>
+                                        <select class="form-select" name="brand_id">
+                                            <option value="">Select Brand</option>
+                                            @foreach($brands as $brand)
+                                                <option value="{{ $brand->id }}" {{ old('brand_id') == $brand->id ? 'selected' : '' }}>
+                                                    {{ $brand->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label text-muted small text-uppercase fw-bold">Stock Status</label>
+                                        <select class="form-select" name="stock_status">
+                                            <option value="in_stock" {{ old('stock_status') == 'in_stock' ? 'selected' : '' }}>In Stock</option>
+                                            <option value="out_of_stock" {{ old('stock_status') == 'out_of_stock' ? 'selected' : '' }}>Out of Stock</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
-                            
-                            <div class="mb-3">
-                                <label class="form-label">Status</label>
-                                <select class="form-select" name="status">
-                                    <option value="active">Active</option>
-                                    <option value="inactive">Inactive</option>
-                                </select>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="featured" id="featured">
-                                    <label class="form-check-label" for="featured">
-                                        Featured Product
-                                    </label>
+                        </div>
+                        <div class="card border-0 bg-light mb-4 text-dark">
+                            <div class="card-body">
+                                <h5 class="fw-bold mb-3">Product Attributes</h5>
+                                <div class="row g-3 align-items-end mb-4">
+                                    <div class="col-md-8">
+                                        <label class="form-label text-muted small text-uppercase fw-bold">Select Attribute</label>
+                                        <select class="form-select" id="attribute_selector">
+                                            <option value="">Choose an attribute...</option>
+                                            @foreach($attributes as $attribute)
+                                                <option value="{{ $attribute->id }}" data-name="{{ $attribute->name }}">{{ $attribute->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <button type="button" class="btn btn-dark w-100" id="add_attribute_btn">
+                                            <i class="bi bi-plus-lg me-1"></i> Add
+                                        </button>
+                                    </div>
+                                </div>
+                                <div id="attributes_list" class="bg-white border rounded p-3" style="min-height: 50px;">
+                                    <p class="text-muted text-center mb-0" id="no_attr_msg">No attributes added yet.</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="d-flex gap-2">
-                        <button type="submit" class="btn btn-primary">Save Product</button>
-                        <a href="{{ route('backend.products.index') }}" class="btn btn-secondary">Cancel</a>
+                    <!-- Right Column: Status & Images -->
+                    <div class="col-md-4">
+                        <div class="card border-0 bg-light mb-4 text-dark">
+                            <div class="card-body">
+                                <h5 class="fw-bold mb-3">Main Image</h5>
+                                <input type="file" class="form-control" name="image" accept="image/*" required>
+                                <small class="text-muted d-block mt-1">This will be the primary product image.</small>
+                            </div>
+                        </div>
+
+                        <div class="card border-0 bg-light mb-4 text-dark">
+                            <div class="card-body">
+                                <h5 class="fw-bold mb-3">Gallery Images</h5>
+                                <input type="file" class="form-control" name="images[]" multiple accept="image/*">
+                                <small class="text-muted d-block mt-1">Upload multiple images for the gallery.</small>
+                            </div>
+                        </div>
+
+                        <div class="card border-0 bg-light text-dark">
+                            <div class="card-body">
+                                <h5 class="fw-bold mb-3">Visibility</h5>
+                                <div class="form-check form-switch mb-3">
+                                    <input class="form-check-input" type="checkbox" name="is_featured" id="is_featured" {{ old('is_featured') ? 'checked' : '' }}>
+                                    <label class="form-check-label fw-bold" for="is_featured">Featured Product</label>
+                                </div>
+                                <div class="form-check form-switch mb-3">
+                                    <input class="form-check-input" type="checkbox" name="is_on_sale" id="is_on_sale" {{ old('is_on_sale') ? 'checked' : '' }}>
+                                    <label class="form-check-label fw-bold" for="is_on_sale">Flash Sale / Discount</label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </form>
-            </div>
+                </div>
+                
+                <div class="mt-4 pt-3 border-top text-end">
+                    <a href="{{ route('backend.products.index') }}" class="btn btn-outline-secondary px-4 me-2">Cancel</a>
+                    <button type="submit" class="btn btn-primary px-5">Save Product</button>
+                </div>
+            </form>
         </div>
     </div>
+</div>
 @endsection
 
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const attributeSelector = document.getElementById('attribute_selector');
+    const addAttributeBtn = document.getElementById('add_attribute_btn');
+    const attributesList = document.getElementById('attributes_list');
+    const noAttrMsg = document.getElementById('no_attr_msg');
+
+    addAttributeBtn.addEventListener('click', function() {
+        const attributeId = attributeSelector.value;
+        const attributeName = attributeSelector.options[attributeSelector.selectedIndex].dataset.name;
+
+        if (!attributeId) {
+            alert('Please select an attribute first.');
+            return;
+        }
+
+        noAttrMsg.style.display = 'none';
+
+        const row = document.createElement('div');
+        row.className = 'attribute-row mb-3 d-flex align-items-end gap-3 p-3 border rounded bg-light';
+        row.dataset.id = attributeId;
+        row.innerHTML = `
+            <div class="flex-grow-1">
+                <label class="form-label text-muted small text-uppercase fw-bold mb-1">${attributeName}</label>
+                <input type="text" class="form-control" name="attribute_values[${attributeId}][]" placeholder="Enter ${attributeName} value..." required>
+            </div>
+            <button type="button" class="btn btn-outline-danger remove-attribute-btn">
+                <i class="bi bi-trash"></i>
+            </button>
+        `;
+
+        attributesList.appendChild(row);
+        attributeSelector.value = '';
+    });
+
+    attributesList.addEventListener('click', function(e) {
+        if (e.target.closest('.remove-attribute-btn')) {
+            e.target.closest('.attribute-row').remove();
+            if (attributesList.querySelectorAll('.attribute-row').length === 0) {
+                noAttrMsg.style.display = 'block';
+            }
+        }
+    });
+});
+</script>
+@endpush

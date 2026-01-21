@@ -17,92 +17,101 @@
 
     <section class="container py-5">
         <div class="row">
-            <div class="col-md-3 mb-4">
-                <div class="list-group">
-                    <a href="{{ route('user.dashboard') }}" class="list-group-item list-group-item-action active">
-                        <i class="bi bi-speedometer2 me-2"></i>Dashboard
-                    </a>
-                    <a href="{{ route('user.orders') }}" class="list-group-item list-group-item-action">
-                        <i class="bi bi-bag-check me-2"></i>My Orders
-                    </a>
-                    <a href="{{ route('user.profile') }}" class="list-group-item list-group-item-action">
-                        <i class="bi bi-person me-2"></i>Profile
-                    </a>
-                    <a href="{{ route('user.wishlist') }}" class="list-group-item list-group-item-action">
-                        <i class="bi bi-heart me-2"></i>Wishlist
-                    </a>
-                    <a href="#" class="list-group-item list-group-item-action">
-                        <i class="bi bi-gear me-2"></i>Settings
-                    </a>
-                    <a href="#" class="list-group-item list-group-item-action text-danger">
-                        <i class="bi bi-box-arrow-right me-2"></i>Logout
-                    </a>
+            <!-- Sidebar -->
+            @include('frontend.user.partials.sidebar')
+
+            <!-- Dashboard Content -->
+            <div class="col-lg-9">
+                @if(session('success'))
+                     <div class="alert alert-success alert-dismissible fade show shadow-sm border-0" role="alert">
+                        <i class="bi bi-check-circle me-2"></i> {{ session('success') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
+                
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="h3 fw-bold mb-0">Dashboard</h2>
+                    <span class="text-muted">Welcome back, {{ auth()->user()->name }}!</span>
                 </div>
-            </div>
-            <div class="col-md-9">
-                <h2 class="h3 fw-bold mb-4">Dashboard</h2>
 
                 <div class="row mb-4">
                     <div class="col-md-4 mb-3">
-                        <div class="card text-center">
-                            <div class="card-body">
-                                <i class="bi bi-bag-check display-4 text-primary"></i>
-                                <h3 class="mt-3">5</h3>
+                        <div class="card h-100 border-0 shadow-sm rounded-3 hover-effect">
+                            <div class="card-body text-center p-4">
+                                <div class="icon-box mb-3 mx-auto bg-light text-primary rounded-circle d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                    <i class="bi bi-bag-check fs-3"></i>
+                                </div>
+                                <h3 class="fw-bold">{{ $totalOrders }}</h3>
                                 <p class="text-muted mb-0">Total Orders</p>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4 mb-3">
-                        <div class="card text-center">
-                            <div class="card-body">
-                                <i class="bi bi-heart display-4 text-danger"></i>
-                                <h3 class="mt-3">12</h3>
+                         <div class="card h-100 border-0 shadow-sm rounded-3 hover-effect">
+                            <div class="card-body text-center p-4">
+                                <div class="icon-box mb-3 mx-auto bg-light text-danger rounded-circle d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                    <i class="bi bi-heart fs-3"></i>
+                                </div>
+                                <h3 class="fw-bold">{{ $wishlistCount }}</h3>
                                 <p class="text-muted mb-0">Wishlist Items</p>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4 mb-3">
-                        <div class="card text-center">
-                            <div class="card-body">
-                                <i class="bi bi-star display-4 text-warning"></i>
-                                <h3 class="mt-3">4.5</h3>
-                                <p class="text-muted mb-0">Average Rating</p>
+                         <div class="card h-100 border-0 shadow-sm rounded-3 hover-effect">
+                             <div class="card-body text-center p-4">
+                                <div class="icon-box mb-3 mx-auto bg-light text-warning rounded-circle d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                    <i class="bi bi-star fs-3"></i>
+                                </div>
+                                <h3 class="fw-bold">{{ $reviewsCount }}</h3>
+                                <p class="text-muted mb-0">My Reviews</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="card">
-                    <div class="card-header bg-brand-blue text-white">
-                        <h5 class="mb-0">Recent Orders</h5>
+                <div class="card shadow-sm border-0 rounded-3">
+                    <div class="card-header bg-white p-3 border-bottom d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0 fw-bold">Recent Orders</h5>
+                        <a href="{{ route('user.orders') }}" class="btn btn-sm btn-outline-primary rounded-pill px-3">View All</a>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body p-0">
                         <div class="table-responsive">
-                            <table class="table">
-                                <thead>
+                            <table class="table table-hover mb-0 align-middle">
+                                <thead class="bg-light">
                                     <tr>
-                                        <th>Order ID</th>
+                                        <th class="ps-4">Order ID</th>
                                         <th>Date</th>
                                         <th>Status</th>
                                         <th>Total</th>
-                                        <th>Action</th>
+                                        <th class="text-end pe-4">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @for($i = 1; $i <= 3; $i++)
+                                    @forelse($recentOrders as $order)
                                         <tr>
-                                            <td>#ORD-00{{ $i }}</td>
-                                            <td>{{ now()->subDays($i)->format('M d, Y') }}</td>
-                                            <td><span class="badge bg-success">Delivered</span></td>
-                                            <td>Rs. {{ 50000 + ($i * 10000) }}</td>
-                                            <td><a href="#" class="btn btn-sm btn-outline-primary">View</a></td>
+                                            <td class="ps-4 fw-bold text-primary">#ORD-{{ str_pad($order->id, 4, '0', STR_PAD_LEFT) }}</td>
+                                            <td>{{ $order->created_at->format('M d, Y') }}</td>
+                                            <td>
+                                                <span class="badge rounded-pill px-3 
+                                                    {{ $order->status == 'delivered' ? 'bg-success' : '' }}
+                                                    {{ $order->status == 'pending' ? 'bg-warning text-dark' : '' }}
+                                                    {{ $order->status == 'cancelled' ? 'bg-danger' : '' }}
+                                                    {{ $order->status == 'processing' ? 'bg-info text-dark' : '' }}
+                                                ">
+                                                    {{ ucfirst($order->status) }}
+                                                </span>
+                                            </td>
+                                            <td class="fw-bold">Rs. {{ number_format($order->total_amount) }}</td>
+                                            <td class="text-end pe-4"><a href="#" class="btn btn-sm btn-light text-primary"><i class="bi bi-eye"></i></a></td>
                                         </tr>
-                                    @endfor
+                                    @empty
+                                        <tr>
+                                            <td colspan="5" class="text-center py-4 text-muted">No orders found.</td>
+                                        </tr>
+                                    @endforelse
                                 </tbody>
                             </table>
-                        </div>
-                        <div class="text-center mt-3">
-                            <a href="{{ route('user.orders') }}" class="btn btn-outline-primary">View All Orders</a>
                         </div>
                     </div>
                 </div>

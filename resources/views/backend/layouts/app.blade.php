@@ -56,7 +56,14 @@
                                 <li><a href="{{ route('backend.products.create') }}"><span class="mini-sub-pro">Add Product</span></a></li>
                                 <li><a href="{{ route('backend.categories.index') }}"><span class="mini-sub-pro">Categories</span></a></li>
                                 <li><a href="{{ route('backend.brands.index') }}"><span class="mini-sub-pro">Brands</span></a></li>
+                                <li><a href="{{ route('backend.attributes.index') }}"><span class="mini-sub-pro">Attributes</span></a></li>
                             </ul>
+                        </li>
+                        <li class="{{ request()->routeIs('backend.reviews.*') ? 'active' : '' }}">
+                            <a href="{{ route('backend.reviews.index') }}">
+                                <span class="bi bi-star-half icon-wrap"></span>
+                                <span class="mini-click-non">Reviews</span>
+                            </a>
                         </li>
                         <li class="{{ request()->routeIs('backend.orders.*') ? 'active' : '' }}">
                             <a class="has-arrow" href="#" aria-expanded="false">
@@ -90,7 +97,7 @@
                                 <span class="bi bi-box-arrow-right icon-wrap"></span>
                                 <span class="mini-click-non">Logout</span>
                             </a>
-                            <form id="logout-form" action="#" method="POST" style="display: none;">
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                 @csrf
                             </form>
                         </li>

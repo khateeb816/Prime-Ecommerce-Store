@@ -16,18 +16,5 @@ class PageController extends Controller
     {
         return view('frontend.pages.store-location');
     }
-
-    public function electronics($category = null)
-    {
-        return view('frontend.products.index', compact('category'));
-    }
-    public function mobiles($category = null)
-    {
-        return view('frontend.products.index', compact('category'));
-    }
-    public function bikes($category = null)
-    {
-        return view('frontend.products.index', compact('category'));
-    }
 }
 

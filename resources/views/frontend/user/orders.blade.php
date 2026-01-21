@@ -18,77 +18,74 @@
 
     <section class="container py-5">
         <div class="row">
-            <div class="col-md-3 mb-4">
-                <div class="list-group">
-                    <a href="{{ route('user.dashboard') }}" class="list-group-item list-group-item-action">
-                        <i class="bi bi-speedometer2 me-2"></i>Dashboard
-                    </a>
-                    <a href="{{ route('user.orders') }}" class="list-group-item list-group-item-action active">
-                        <i class="bi bi-bag-check me-2"></i>My Orders
-                    </a>
-                    <a href="{{ route('user.profile') }}" class="list-group-item list-group-item-action">
-                        <i class="bi bi-person me-2"></i>Profile
-                    </a>
-                    <a href="{{ route('user.wishlist') }}" class="list-group-item list-group-item-action">
-                        <i class="bi bi-heart me-2"></i>Wishlist
-                    </a>
-                    <a href="#" class="list-group-item list-group-item-action">
-                        <i class="bi bi-gear me-2"></i>Settings
-                    </a>
-                    <a href="#" class="list-group-item list-group-item-action text-danger">
-                        <i class="bi bi-box-arrow-right me-2"></i>Logout
-                    </a>
-                </div>
-            </div>
-            <div class="col-md-9">
+            <!-- Sidebar -->
+            @include('frontend.user.partials.sidebar')
+
+            <div class="col-lg-9">
                 <h2 class="h3 fw-bold mb-4">My Orders</h2>
 
-                @for($i = 1; $i <= 5; $i++)
-                    <div class="card mb-3">
-                        <div class="card-header d-flex justify-content-between align-items-center">
+                @forelse($orders as $order)
+                    <div class="card mb-3 shadow-sm border-0 rounded-3">
+                        <div class="card-header bg-white border-bottom d-flex justify-content-between align-items-center p-3">
                             <div>
-                                <strong>Order #ORD-00{{ $i }}</strong>
-                                <span class="text-muted ms-2">{{ now()->subDays($i)->format('M d, Y') }}</span>
+                                <strong class="text-primary">Order #ORD-{{ str_pad($order->id, 4, '0', STR_PAD_LEFT) }}</strong>
+                                <span class="text-muted ms-2 small">{{ $order->created_at->format('M d, Y h:i A') }}</span>
                             </div>
-                            <span class="badge bg-success">Delivered</span>
+                            <span class="badge rounded-pill px-3 
+                                {{ $order->status == 'delivered' ? 'bg-success' : '' }}
+                                {{ $order->status == 'pending' ? 'bg-warning text-dark' : '' }}
+                                {{ $order->status == 'cancelled' ? 'bg-danger' : '' }}
+                                {{ $order->status == 'processing' ? 'bg-info text-dark' : '' }}
+                            ">
+                                {{ ucfirst($order->status) }}
+                            </span>
                         </div>
-                        <div class="card-body">
-                            <div class="row align-items-center">
-                                <div class="col-md-2">
-                                    <div class="product-image-placeholder border rounded" style="width: 100%; height: 100px;">
-                                        <div class="d-flex align-items-center justify-content-center h-100">
-                                            <i class="bi bi-image" style="font-size: 40px; color: #ddd;"></i>
-                                        </div>
+                        <div class="card-body p-3">
+                            @foreach($order->items->take(2) as $item)
+                                <div class="row align-items-center {{ !$loop->last ? 'mb-2' : '' }}">
+                                    <div class="col-md-2 col-3">
+                                        @if($item->product && $item->product->image)
+                                             <img src="{{ asset('storage/' . $item->product->image) }}" class="img-fluid rounded border" alt="{{ $item->product->name }}" style="max-height: 60px; object-fit: contain;">
+                                        @else
+                                            <div class="bg-light rounded d-flex align-items-center justify-content-center border" style="height: 60px;">
+                                                <i class="bi bi-image text-muted"></i>
+                                            </div>
+                                        @endif
                                     </div>
+                                    <div class="col-md-6 col-9">
+                                        <h6 class="mb-0 text-truncate">{{ $item->product->name ?? 'Product Deleted' }}</h6>
+                                        <small class="text-muted">Qty: {{ $item->quantity }} x Rs. {{ number_format($item->price) }}</small>
+                                    </div>
+                                    @if($loop->first)
+                                        <div class="col-md-4 text-md-end mt-2 mt-md-0">
+                                            <strong class="text-primary d-block">Rs. {{ number_format($order->total_amount) }}</strong>
+                                            <small class="text-muted d-block">{{ $order->items->count() }} Items Total</small>
+                                        </div>
+                                    @endif
                                 </div>
-                                <div class="col-md-6">
-                                    <h6 class="mb-1">Product Name {{ $i }}</h6>
-                                    <small class="text-muted">Quantity: {{ $i }}</small>
+                            @endforeach
+                            @if($order->items->count() > 2)
+                                <div class="text-center mt-2">
+                                    <small class="text-muted">+ {{ $order->items->count() - 2 }} more items</small>
                                 </div>
-                                <div class="col-md-2 text-center">
-                                    <strong class="text-danger">Rs. {{ 50000 + ($i * 10000) }}</strong>
-                                </div>
-                                <div class="col-md-2 text-end">
-                                    <a href="#" class="btn btn-sm btn-outline-primary">View Details</a>
-                                </div>
-                            </div>
+                            @endif
+                        </div>
+                         <div class="card-footer bg-white border-top-0 text-end p-3">
+                            <a href="#" class="btn btn-sm btn-outline-primary">View Details</a>
                         </div>
                     </div>
-                @endfor
+                @empty
+                    <div class="text-center py-5">
+                        <i class="bi bi-bag-x display-1 text-muted"></i>
+                        <h4 class="mt-3">No orders yet</h4>
+                        <p class="text-muted">Start shopping to see your orders here.</p>
+                        <a href="{{ route('products.index') }}" class="btn btn-primary">Shop Now</a>
+                    </div>
+                @endforelse
 
-                <nav aria-label="Page navigation" class="mt-4">
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#" tabindex="-1">Previous</a>
-                        </li>
-                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">Next</a>
-                        </li>
-                    </ul>
-                </nav>
+                <div class="mt-4">
+                    {{ $orders->links() }}
+                </div>
             </div>
         </div>
     </section>

@@ -16,6 +16,24 @@
         </div>
     </nav>
 
+    <div class="container mt-4">
+        @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="bi bi-check-circle-fill me-2"></i>{{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+        @if($errors->any())
+            <div class="alert alert-danger">
+                <ul class="mb-0">
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+    </div>
+
     <!-- Product Details Section -->
     <section class="container py-5">
         <div class="row">
@@ -57,7 +75,7 @@
                                     @endif
                                 @endfor
                             </div>
-                            <span class="text-muted">({{ $product['rating'] }}) · {{ $product['reviews'] }} {{ $product['reviews'] == 1 ? 'review' : 'reviews' }}</span>
+                            <span class="text-muted">({{ $product->rating ?? 0 }}) · {{ $product->reviews->count() }} {{ $product->reviews->count() == 1 ? 'review' : 'reviews' }}</span>
                         </div>
                     </div>
                     <div class="d-flex gap-2">
@@ -90,46 +108,10 @@
                             <span class="badge bg-danger" style="font-size: 1rem; padding: 8px 12px;">Save {{ $product['discount'] }}%</span>
                         @endif
                     </div>
-                    <p class="text-muted small mb-0">
-                        <i class="bi bi-info-circle me-1"></i>Inclusive of all taxes · Free delivery on orders above Rs. 10,000
-                    </p>
+                    
                 </div>
 
-                <div class="mb-4">
-                    <h5 class="fw-bold mb-3">
-                        <i class="bi bi-star me-2 text-warning"></i>Key Features:
-                    </h5>
-                    <div class="row g-2">
-                        <div class="col-md-6">
-                            <div class="d-flex align-items-start mb-2">
-                                <i class="bi bi-check-circle-fill text-success me-2 mt-1"></i>
-                                <span>Energy Efficient Inverter Technology</span>
-                            </div>
-                            <div class="d-flex align-items-start mb-2">
-                                <i class="bi bi-check-circle-fill text-success me-2 mt-1"></i>
-                                <span>1.5 Ton Cooling Capacity</span>
-                            </div>
-                            <div class="d-flex align-items-start mb-2">
-                                <i class="bi bi-check-circle-fill text-success me-2 mt-1"></i>
-                                <span>5 Star Energy Rating</span>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="d-flex align-items-start mb-2">
-                                <i class="bi bi-check-circle-fill text-success me-2 mt-1"></i>
-                                <span>Wi-Fi Enabled Smart Control</span>
-                            </div>
-                            <div class="d-flex align-items-start mb-2">
-                                <i class="bi bi-check-circle-fill text-success me-2 mt-1"></i>
-                                <span>10 Years Compressor Warranty</span>
-                            </div>
-                            <div class="d-flex align-items-start mb-2">
-                                <i class="bi bi-check-circle-fill text-success me-2 mt-1"></i>
-                                <span>Auto Clean Technology</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+              
 
                 <div class="mb-4">
                     <label class="fw-bold mb-2 d-block">Quantity:</label>
@@ -141,12 +123,12 @@
                 </div>
 
                 <div class="d-flex gap-3 mb-4">
-                    <button class="btn btn-danger btn-lg flex-fill">
+                    <a href="{{ route('cart.add', $product->id) }}" class="btn btn-danger btn-lg flex-fill">
                         <i class="bi bi-cart-plus me-2"></i>Add to Cart
-                    </button>
-                    <button class="btn btn-outline-danger btn-lg" title="Buy Now">
+                    </a>
+                    <a href="{{ route('cart.add', $product->id) }}?buy_now=1" class="btn btn-outline-danger btn-lg" title="Buy Now">
                         <i class="bi bi-lightning-fill me-2"></i>Buy Now
-                    </button>
+                    </a>
                 </div>
 
                 <div class="card border-0 bg-light mb-4">
@@ -169,10 +151,7 @@
                 </div>
 
                 <div class="border-top pt-3">
-                    <p class="mb-2">
-                        <i class="bi bi-truck me-2 text-primary"></i>
-                        <strong>Delivery:</strong> Free delivery on orders above Rs. 10,000 all over Pakistan
-                    </p>
+                    
                     <p class="mb-2">
                         <i class="bi bi-shield-check me-2 text-success"></i>
                         <strong>Warranty:</strong> 1 Year on Product, 10 Years on Compressor
@@ -201,7 +180,7 @@
                     </li>
                         <li class="nav-item" role="presentation">
                         <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews" type="button" role="tab">
-                            Reviews ({{ $product['reviews'] }})
+                            Reviews ({{ $product->reviews->count() }})
                         </button>
                     </li>
                 </ul>
@@ -248,7 +227,7 @@
                                             @endif
                                         @endfor
                                     </div>
-                                    <p class="text-muted mb-0">Based on {{ $product['reviews'] }} {{ $product['reviews'] == 1 ? 'review' : 'reviews' }}</p>
+                                    <p class="text-muted mb-0">Based on {{ $product->reviews->count() }} {{ $product->reviews->count() == 1 ? 'review' : 'reviews' }}</p>
                                 </div>
                             </div>
                             <div class="col-md-8">
@@ -301,88 +280,109 @@
                         </div>
 
                         <div class="mb-4">
-                            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#writeReviewModal">
-                                <i class="bi bi-pencil me-2"></i>Write a Review
-                            </button>
+                            @auth
+                                <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#writeReviewModal">
+                                    <i class="bi bi-pencil me-2"></i>Write a Review
+                                </button>
+                            @else
+                                <a href="{{ route('login') }}" class="btn btn-danger">
+                                    <i class="bi bi-box-arrow-in-right me-2"></i>Login to Write a Review
+                                </a>
+                            @endauth
                         </div>
 
-                        <div class="review-item border-bottom pb-4 mb-4">
-                            <div class="d-flex justify-content-between align-items-start mb-2">
-                                <div>
-                                    <strong>Ahmed Khan</strong>
-                                    <span class="badge bg-success ms-2">
-                                        <i class="bi bi-check-circle me-1"></i>Verified Purchase
+                        @forelse($product->reviews as $review)
+                            <div class="review-item border-bottom pb-4 mb-4">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <div>
+                                        <strong>{{ $review->user ? $review->user->name : 'Deleted User' }}</strong>
+                                        <span class="badge bg-success ms-2">
+                                            <i class="bi bi-check-circle me-1"></i>Verified Purchase
+                                        </span>
+                                    </div>
+                                    <span class="text-warning">
+                                        @for($i = 1; $i <= 5; $i++)
+                                            <i class="bi bi-star{{ $i <= $review->rating ? '-fill' : '' }}"></i>
+                                        @endfor
                                     </span>
                                 </div>
-                                <span class="text-warning">
-                                    <i class="bi bi-star-fill"></i>
-                                    <i class="bi bi-star-fill"></i>
-                                    <i class="bi bi-star-fill"></i>
-                                    <i class="bi bi-star-fill"></i>
-                                    <i class="bi bi-star-fill"></i>
-                                </span>
-                            </div>
-                            <p class="mb-2">Excellent product! Very energy efficient and cools the room quickly. The Wi-Fi feature is amazing - I can control it from my phone. Installation was professional and quick. Highly recommended!</p>
-                            <div class="d-flex align-items-center gap-3">
-                                <small class="text-muted">
-                                    <i class="bi bi-calendar me-1"></i>2 days ago
-                                </small>
-                                <button class="btn btn-sm btn-link p-0 text-decoration-none">
-                                    <i class="bi bi-hand-thumbs-up me-1"></i>Helpful (12)
-                                </button>
-                            </div>
-                        </div>
+                                <p class="mb-2">{{ $review->comment }}</p>
+                                
+                                <div class="d-flex align-items-center gap-3 mt-2">
+                                    <!-- Like Button -->
+                                    <form action="{{ route('reviews.like.toggle', $review->id) }}" method="POST" class="d-inline">
+                                        @csrf
+                                        <button type="submit" class="btn btn-sm btn-link text-decoration-none p-0 {{ $review->likes->contains('user_id', auth()->id()) ? 'text-danger' : 'text-muted' }}" title="Like">
+                                             <i class="bi bi-hand-thumbs-up{{ $review->likes->contains('user_id', auth()->id()) ? '-fill' : '' }} me-1"></i>
+                                             {{ $review->likes->count() }}
+                                        </button>
+                                    </form>
 
-                        <div class="review-item border-bottom pb-4 mb-4">
-                            <div class="d-flex justify-content-between align-items-start mb-2">
-                                <div>
-                                    <strong>Fatima Ali</strong>
+                                    <!-- Reply Toggle -->
+                                    <button class="btn btn-sm btn-link text-decoration-none p-0 text-muted" onclick="document.getElementById('reply-form-{{ $review->id }}').classList.toggle('d-none')">
+                                        Reply
+                                    </button>
                                 </div>
-                                <span class="text-warning">
-                                    <i class="bi bi-star-fill"></i>
-                                    <i class="bi bi-star-fill"></i>
-                                    <i class="bi bi-star-fill"></i>
-                                    <i class="bi bi-star-fill"></i>
-                                    <i class="bi bi-star"></i>
-                                </span>
-                            </div>
-                            <p class="mb-2">Good value for money. The AC works perfectly and the energy consumption is low. Installation was quick and professional. The only minor issue is the remote control could be better.</p>
-                            <div class="d-flex align-items-center gap-3">
-                                <small class="text-muted">
-                                    <i class="bi bi-calendar me-1"></i>1 week ago
-                                </small>
-                                <button class="btn btn-sm btn-link p-0 text-decoration-none">
-                                    <i class="bi bi-hand-thumbs-up me-1"></i>Helpful (8)
-                                </button>
-                            </div>
-                        </div>
 
-                        <div class="review-item border-bottom pb-4 mb-4">
-                            <div class="d-flex justify-content-between align-items-start mb-2">
-                                <div>
-                                    <strong>Muhammad Hassan</strong>
-                                    <span class="badge bg-success ms-2">
-                                        <i class="bi bi-check-circle me-1"></i>Verified Purchase
-                                    </span>
+                                <!-- Reply Form -->
+                                <div id="reply-form-{{ $review->id }}" class="mt-3 d-none">
+                                    @auth
+                                        <form action="{{ route('reviews.reply.store', $review->id) }}" method="POST">
+                                            @csrf
+                                            <div class="d-flex gap-2">
+                                                 <img src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name) }}&background=random" class="rounded-circle" width="32" height="32" alt="User">
+                                                 <div class="flex-grow-1">
+                                                     <textarea name="body" class="form-control form-control-sm mb-2" rows="2" placeholder="Add a reply..." required></textarea>
+                                                     <div class="text-end">
+                                                         <button type="button" class="btn btn-sm btn-link text-muted text-decoration-none" onclick="document.getElementById('reply-form-{{ $review->id }}').classList.add('d-none')">Cancel</button>
+                                                         <button type="submit" class="btn btn-sm btn-primary rounded-pill px-3">Reply</button>
+                                                     </div>
+                                                 </div>
+                                            </div>
+                                        </form>
+                                    @else
+                                        <p class="small text-muted mb-0">Please <a href="{{ route('login') }}" class="text-danger">login</a> to reply.</p>
+                                    @endauth
                                 </div>
-                                <span class="text-warning">
-                                    <i class="bi bi-star-fill"></i>
-                                    <i class="bi bi-star-fill"></i>
-                                    <i class="bi bi-star-fill"></i>
-                                    <i class="bi bi-star-fill"></i>
-                                    <i class="bi bi-star-half"></i>
-                                </span>
+
+                                <!-- Replies List -->
+                                @if($review->replies && $review->replies->count() > 0)
+                                    <div class="mt-3 ps-4 border-start">
+                                        @foreach($review->replies as $reply)
+                                            <div class="d-flex gap-2 mb-3">
+                                                 <img src="https://ui-avatars.com/api/?name={{ urlencode($reply->user->name) }}&background=random" class="rounded-circle" width="32" height="32" alt="{{ $reply->user->name }}">
+                                                 <div>
+                                                     <div class="d-flex align-items-center gap-2">
+                                                         <strong class="small">
+                                                            {{ $reply->user->name }} 
+                                                            @if(auth()->user()->role == 'admin')
+                                                            <span class="badge bg-danger">Admin</span>
+                                                            @endif
+                                                         </strong>
+                                                         <small class="text-muted" style="font-size: 0.75rem;">{{ $reply->created_at->diffForHumans() }}</small>
+                                                     </div>
+                                                     <p class="small mb-0">{{ $reply->body }}</p>
+                                                 </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @endif
+
+                                <div class="d-flex align-items-center gap-3">
+                                    @if($review->reply)
+                                        <div class="ms-4 p-3 bg-light rounded border-start border-4 border-danger mt-3">
+                                            <div class="fw-bold mb-1 text-danger">Response from Prime:</div>
+                                            <div class="text-muted small">{{ $review->reply }}</div>
+                                        </div>
+                                    @endif
+                                </div>
                             </div>
-                            <p class="mb-2">Great AC with excellent cooling. The inverter technology really saves electricity. Customer service was responsive when I had questions.</p>
-                            <div class="d-flex align-items-center gap-3">
-                                <small class="text-muted">
-                                    <i class="bi bi-calendar me-1"></i>2 weeks ago
-                                </small>
-                                <button class="btn btn-sm btn-link p-0 text-decoration-none">
-                                    <i class="bi bi-hand-thumbs-up me-1"></i>Helpful (5)
-                                </button>
+                        @empty
+                            <div class="text-center py-5">
+                                <i class="bi bi-chat-left-dots display-1 text-muted mb-3 d-block"></i>
+                                <p class="text-muted">No reviews yet. Be the first to share your experience!</p>
                             </div>
-                        </div>
+                        @endforelse
 
                         <nav aria-label="Page navigation">
                             <ul class="pagination justify-content-center">
@@ -404,21 +404,24 @@
             <div class="col-12">
                 <h3 class="h4 fw-bold mb-4">You May Also Like</h3>
                 <div class="row g-4">
-                    @for($i = 1; $i <= 4; $i++)
+                    @forelse($relatedProducts as $related)
                         <div class="col-md-3 col-sm-6">
                             <x-product-card
-                                name="Related Product {{ $i }}"
-                                price="{{ 60000 + ($i * 5000) }}"
-                                oldPrice="{{ 75000 + ($i * 5000) }}"
-                                discount="{{ 15 + $i }}"
-                                icon="bi-snow"
-                                :rating="4.5"
-                                :reviews="20 + $i"
+                                :id="$related->id"
+                                :name="$related->name"
+                                :price="$related->sale_price ?? $related->price"
+                                :oldPrice="$related->sale_price ? $related->price : null"
+                                :icon="$related->image ? null : 'bi-box'"
+                                :image="$related->image"
+                                :rating="$related->rating ?? 0"
+                                :reviews="$related->reviews ? $related->reviews->count() : 0"
                                 :showCart="true"
-                                slug="related-product-{{ $i }}"
+                                :slug="$related->slug"
                             />
                         </div>
-                    @endfor
+                    @empty
+                        <div class="col-12 text-center text-muted py-4">No related products found.</div>
+                    @endforelse
                 </div>
             </div>
         </div>
@@ -433,45 +436,33 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form>
-                        <div class="mb-3">
-                            <label class="form-label">Rating *</label>
-                            <div class="rating-input">
-                                <input type="radio" name="rating" id="rating5" value="5" class="d-none">
-                                <label for="rating5" class="text-warning" style="cursor: pointer; font-size: 1.5rem;">
-                                    <i class="bi bi-star"></i>
-                                </label>
-                                <input type="radio" name="rating" id="rating4" value="4" class="d-none">
-                                <label for="rating4" class="text-warning" style="cursor: pointer; font-size: 1.5rem;">
-                                    <i class="bi bi-star"></i>
-                                </label>
-                                <input type="radio" name="rating" id="rating3" value="3" class="d-none">
-                                <label for="rating3" class="text-warning" style="cursor: pointer; font-size: 1.5rem;">
-                                    <i class="bi bi-star"></i>
-                                </label>
-                                <input type="radio" name="rating" id="rating2" value="2" class="d-none">
-                                <label for="rating2" class="text-warning" style="cursor: pointer; font-size: 1.5rem;">
-                                    <i class="bi bi-star"></i>
-                                </label>
-                                <input type="radio" name="rating" id="rating1" value="1" class="d-none">
-                                <label for="rating1" class="text-warning" style="cursor: pointer; font-size: 1.5rem;">
-                                    <i class="bi bi-star"></i>
-                                </label>
+                    <form action="{{ route('products.review.store', $product->id) }}" method="POST">
+                        @csrf
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Overall Rating *</label>
+                            <div class="rating-input d-flex gap-2">
+                                @for($i = 1; $i <= 5; $i++)
+                                    <input type="radio" name="rating" id="rating{{ $i }}" value="{{ $i }}" class="d-none" {{ $i == 5 ? 'checked' : '' }}>
+                                    <label for="rating{{ $i }}" class="text-warning cursor-pointer" style="font-size: 2.5rem;">
+                                        <i class="bi bi-star-fill"></i>
+                                    </label>
+                                @endfor
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label for="reviewTitle" class="form-label">Review Title</label>
-                            <input type="text" class="form-control" id="reviewTitle" placeholder="Give your review a title">
+                            <label for="reviewText" class="form-label fw-bold">Your Review *</label>
+                            <textarea name="comment" class="form-control" id="reviewText" rows="5" placeholder="Share your experience with this product..." required minlength="10"></textarea>
+                            <div class="form-text">Minimum 10 characters.</div>
                         </div>
-                        <div class="mb-3">
-                            <label for="reviewText" class="form-label">Your Review *</label>
-                            <textarea class="form-control" id="reviewText" rows="5" placeholder="Share your experience with this product..." required></textarea>
+                        <div class="bg-light p-3 rounded mb-4">
+                            <div class="d-flex align-items-center gap-2 text-muted">
+                                <i class="bi bi-person-circle fs-5"></i>
+                                <span>Posting as: <strong>{{ auth()->user()->name ?? '' }}</strong></span>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="reviewerName" class="form-label">Your Name *</label>
-                            <input type="text" class="form-control" id="reviewerName" required>
-                        </div>
-                        <button type="submit" class="btn btn-danger w-100">Submit Review</button>
+                        <button type="submit" class="btn btn-danger btn-lg w-100 py-3 shadow-sm">
+                            Submit My Review
+                        </button>
                     </form>
                 </div>
             </div>
@@ -507,21 +498,44 @@
         });
 
         // Rating stars interaction
-        document.querySelectorAll('input[name="rating"]').forEach(function(radio) {
+        const ratingInputs = document.querySelectorAll('input[name="rating"]');
+        const labels = document.querySelectorAll('.rating-input label');
+
+        function updateStars(rating) {
+            labels.forEach(function(label, index) {
+                const icon = label.querySelector('i');
+                if (index < rating) {
+                    icon.classList.replace('bi-star', 'bi-star-fill');
+                } else {
+                    icon.classList.replace('bi-star-fill', 'bi-star');
+                }
+            });
+        }
+
+        ratingInputs.forEach(function(radio) {
             radio.addEventListener('change', function() {
-                const rating = parseInt(this.value);
-                const labels = document.querySelectorAll('.rating-input label');
-                labels.forEach(function(label, index) {
-                    if (index < rating) {
-                        label.querySelector('i').classList.remove('bi-star');
-                        label.querySelector('i').classList.add('bi-star-fill');
-                    } else {
-                        label.querySelector('i').classList.remove('bi-star-fill');
-                        label.querySelector('i').classList.add('bi-star');
-                    }
-                });
+                updateStars(parseInt(this.value));
             });
         });
+
+        labels.forEach(function(label, index) {
+            label.addEventListener('mouseenter', function() {
+                updateStars(index + 1);
+            });
+
+            label.addEventListener('mouseleave', function() {
+                const checkedRadio = document.querySelector('input[name="rating"]:checked');
+                if (checkedRadio) {
+                    updateStars(parseInt(checkedRadio.value));
+                }
+            });
+        });
+
+        // Initialize stars on page load
+        const checkedRadio = document.querySelector('input[name="rating"]:checked');
+        if (checkedRadio) {
+            updateStars(parseInt(checkedRadio.value));
+        }
     </script>
 @endsection
 

@@ -38,78 +38,69 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @for($i = 1; $i <= 20; $i++)
-                                @php
-                                    $statuses = ['pending', 'processing', 'completed', 'cancelled'];
-                                    $orderStatus = $statuses[$i % 4];
-                                    $paymentMethods = ['Cash on Delivery', 'Credit Card', 'Bank Transfer'];
-                                    $paymentMethod = $paymentMethods[$i % 3];
-                                @endphp
-                                @if(!$status || $orderStatus == $status)
-                                    <tr>
-                                        <td><strong>#ORD-{{ str_pad($i, 4, '0', STR_PAD_LEFT) }}</strong></td>
-                                        <td>
-                                            <div>
-                                                <strong>Customer {{ $i }}</strong><br>
-                                                <small class="text-muted">customer{{ $i }}@example.com</small>
-                                            </div>
-                                        </td>
-                                        <td>{{ $i }} item(s)</td>
-                                        <td><strong>Rs. {{ number_format(50000 + ($i * 5000)) }}</strong></td>
-                                        <td>{{ $paymentMethod }}</td>
-                                        <td>
-                                            @if($orderStatus == 'completed')
-                                                <span class="badge bg-success">Completed</span>
-                                            @elseif($orderStatus == 'processing')
-                                                <span class="badge bg-info">Processing</span>
-                                            @elseif($orderStatus == 'pending')
-                                                <span class="badge bg-warning">Pending</span>
-                                            @else
-                                                <span class="badge bg-danger">Cancelled</span>
-                                            @endif
-                                        </td>
-                                        <td>{{ now()->subDays($i)->format('M d, Y') }}</td>
-                                        <td>
-                                            <a href="{{ route('backend.orders.show', $i) }}" class="btn btn-sm btn-info">
+                            @forelse($orders as $order)
+                                <tr>
+                                    <td><strong>#ORD-{{ str_pad($order->id, 4, '0', STR_PAD_LEFT) }}</strong></td>
+                                    <td>
+                                        <div>
+                                            <strong>{{ $order->user->name ?? 'Guest' }}</strong><br>
+                                            <small class="text-muted">{{ $order->user->email ?? '' }}</small>
+                                        </div>
+                                    </td>
+                                    <td>{{ $order->items->count() }} item(s)</td>
+                                    <td><strong>Rs. {{ number_format($order->total_amount) }}</strong></td>
+                                    <td>{{ strtoupper($order->payment_method) }}</td>
+                                    <td>
+                                        @php
+                                            $badgeClass = 'bg-secondary';
+                                            if($order->status == 'delivered') $badgeClass = 'bg-success';
+                                            elseif($order->status == 'processing') $badgeClass = 'bg-info';
+                                            elseif($order->status == 'pending') $badgeClass = 'bg-warning text-dark';
+                                            elseif($order->status == 'shipped') $badgeClass = 'bg-primary';
+                                            elseif($order->status == 'cancelled') $badgeClass = 'bg-danger';
+                                        @endphp
+                                        <span class="badge {{ $badgeClass }}">{{ ucfirst($order->status) }}</span>
+                                    </td>
+                                    <td>{{ $order->created_at->format('M d, Y') }}</td>
+                                    <td>
+                                        <div class="d-flex gap-2 align-items-center">
+                                            <a href="{{ route('backend.orders.show', $order->id) }}" class="btn btn-sm btn-info text-white">
                                                 <i class="bi bi-eye"></i>
                                             </a>
-                                            <select class="form-select form-select-sm d-inline-block" style="width: auto;" onchange="updateOrderStatus({{ $i }}, this.value)">
-                                                <option value="pending" {{ $orderStatus == 'pending' ? 'selected' : '' }}>Pending</option>
-                                                <option value="processing" {{ $orderStatus == 'processing' ? 'selected' : '' }}>Processing</option>
-                                                <option value="completed" {{ $orderStatus == 'completed' ? 'selected' : '' }}>Completed</option>
-                                                <option value="cancelled" {{ $orderStatus == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                @endif
-                            @endfor
+                                            <form action="{{ route('backend.orders.updateStatus', $order->id) }}" method="POST" class="d-inline">
+                                                @csrf
+                                                @method('PUT')
+                                                <select name="status" class="form-select form-select-sm" style="width: auto;" onchange="this.form.submit()">
+                                                    <option value="pending" {{ $order->status == 'pending' ? 'selected' : '' }}>Pending</option>
+                                                    <option value="processing" {{ $order->status == 'processing' ? 'selected' : '' }}>Processing</option>
+                                                    <option value="shipped" {{ $order->status == 'shipped' ? 'selected' : '' }}>Shipped</option>
+                                                    <option value="delivered" {{ $order->status == 'delivered' ? 'selected' : '' }}>Delivered</option>
+                                                    <option value="cancelled" {{ $order->status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
+                                                </select>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="8" class="text-center py-4">No orders found.</td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
                 
-                <!-- Pagination -->
-                <nav aria-label="Page navigation">
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                    </ul>
-                </nav>
+                <div class="mt-4">
+                    {{ $orders->links() }}
+                </div>
             </div>
         </div>
     </div>
 @endsection
 
 @push('scripts')
-<script>
-    function updateOrderStatus(orderId, status) {
-        if (confirm('Are you sure you want to update the order status?')) {
-            // Handle status update
-            console.log('Updating order:', orderId, 'to status:', status);
-        }
-    }
-</script>
+<style>
+    .bg-info { background-color: #0dcaf0 !important; }
+</style>
 @endpush
 

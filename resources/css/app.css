@@ -30,7 +30,7 @@ header {
     right: 0;
     z-index: 1030;
     width: 100%;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 header .bg-brand-blue.position-relative {
@@ -202,6 +202,7 @@ main {
 }
 
 @media (max-width: 768px) {
+
     #heroCarousel .carousel-control-prev,
     #heroCarousel .carousel-control-next {
         width: 40px;
@@ -256,7 +257,7 @@ section[aria-label="Popular Brands"] {
     margin-right: 0;
 }
 
-#saleProductsCarousel .row > [class*="col-"] {
+#saleProductsCarousel .row>[class*="col-"] {
     padding-left: 12px;
     padding-right: 12px;
     padding-top: 5px;
@@ -268,7 +269,7 @@ section[aria-label="Popular Brands"] {
         padding: 10px 80px;
     }
 
-    #saleProductsCarousel .row > [class*="col-"] {
+    #saleProductsCarousel .row>[class*="col-"] {
         padding-left: 15px;
         padding-right: 15px;
     }
@@ -380,7 +381,7 @@ section[aria-label="Popular Brands"] {
 
 .brand-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     border-color: var(--brand-blue);
     z-index: 10;
 }
@@ -429,7 +430,7 @@ section[aria-label="Popular Brands"] {
     margin-right: 0;
 }
 
-#brandsCarousel .row > [class*="col-"] {
+#brandsCarousel .row>[class*="col-"] {
     padding-left: 12px;
     padding-right: 12px;
     padding-top: 5px;
@@ -441,7 +442,7 @@ section[aria-label="Popular Brands"] {
         padding: 10px 80px;
     }
 
-    #brandsCarousel .row > [class*="col-"] {
+    #brandsCarousel .row>[class*="col-"] {
         padding-left: 15px;
         padding-right: 15px;
     }
@@ -587,7 +588,7 @@ section[aria-label="Popular Brands"] {
 
 .product-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     border-color: var(--brand-blue);
     z-index: 10;
 }
@@ -913,7 +914,7 @@ footer a:hover {
     max-width: 1200px;
 }
 
-.category-trigger:hover ~ .category-menu-wrapper,
+.category-trigger:hover~.category-menu-wrapper,
 .category-menu-wrapper:hover {
     opacity: 1;
     visibility: visible;
@@ -1302,7 +1303,8 @@ img {
     loading: lazy;
 }
 
-.cat-item, .product-card {
+.cat-item,
+.product-card {
     will-change: transform;
 }
 
@@ -1380,7 +1382,7 @@ img {
     cursor: pointer;
     pointer-events: all;
     border: 3px solid white;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
     transition: all 0.2s;
     margin-top: -7px;
     position: relative;
@@ -1390,7 +1392,7 @@ img {
 .range-slider-wrapper input[type="range"]::-webkit-slider-thumb:hover {
     background: var(--brand-red);
     transform: scale(1.15);
-    box-shadow: 0 3px 8px rgba(0,0,0,0.4);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
 }
 
 .range-slider-wrapper input[type="range"]::-webkit-slider-thumb:active {
@@ -1405,7 +1407,7 @@ img {
     cursor: pointer;
     pointer-events: all;
     border: 3px solid white;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
     transition: all 0.2s;
     position: relative;
     z-index: 10;
@@ -1414,7 +1416,7 @@ img {
 .range-slider-wrapper input[type="range"]::-moz-range-thumb:hover {
     background: var(--brand-red);
     transform: scale(1.15);
-    box-shadow: 0 3px 8px rgba(0,0,0,0.4);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
 }
 
 .range-slider-wrapper input[type="range"]::-webkit-slider-runnable-track {
@@ -1517,4 +1519,83 @@ img {
 .input-group-sm .form-control {
     font-size: 0.875rem;
     padding: 0.25rem 0.5rem;
+}
+
+/* Category Card Styles */
+.category-card {
+    transition: all 0.3s ease;
+    cursor: pointer;
+    background: white;
+}
+
+.category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1) !important;
+    border-color: var(--brand-blue) !important;
+}
+
+.category-card:hover h6 {
+    color: var(--brand-blue);
+}
+
+.category-card:hover i,
+.category-card:hover img {
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
+}
+
+/* Pagination Refined */
+.pagination {
+    margin-top: 2rem;
+    gap: 5px;
+}
+
+.pagination .page-item .page-link {
+    border-radius: 6px !important;
+    border: 1px solid #eee;
+    color: var(--brand-blue);
+    padding: 8px 16px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: var(--brand-blue) !important;
+    border-color: var(--brand-blue) !important;
+    color: white !important;
+}
+
+.pagination .page-item .page-link:hover {
+    background-color: #f8f9fa;
+    color: var(--brand-red);
+    border-color: var(--brand-red);
+}
+
+/* Fix massive SVG icons in default Laravel pagination if fallback happens */
+.pagination svg {
+    width: 1.25rem !important;
+    height: 1.25rem !important;
+}
+
+.pagination .flex.justify-between.flex-1 {
+    display: none !important;
+    /* Hide the simple pagination text if it appears near the numbers */
+}
+
+/* Sidebar filter scroll */
+.filter-scroll::-webkit-scrollbar {
+    width: 5px;
+}
+
+.filter-scroll::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.filter-scroll::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 10px;
+}
+
+.filter-scroll::-webkit-scrollbar-thumb:hover {
+    background: #bbb;
 }

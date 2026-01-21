@@ -1,53 +1,49 @@
 @php
-$categories = [
-    'Air Conditioner' => ['Haier AC', 'Dawlance AC', 'LG AC', 'Samsung AC', 'Orient AC', 'Gree AC'],
-    'Geyser' => ['Nasgas Geyser', 'Beetro Geyser', 'Super Asia Geyser', 'Canon Geyser', 'Singer Geyser'],
-    'Refrigerator' => ['Haier Refrigerator', 'Dawlance Refrigerator', 'Eastcool Refrigerator', 'Kenwood Refrigerator', 'LG Refrigerator', 'Samsung Refrigerator', 'Bosch Refrigerator', 'Hitachi Refrigerator', 'Orient Refrigerator'],
-    'Deep Freezer' => ['Haier Deep Freezer', 'Dawlance Deep Freezer', 'LG Deep Freezer'],
-    'Water Dispenser' => ['Haier Water Dispenser', 'Dawlance Water Dispenser', 'LG Water Dispenser'],
-    'LED TV' => ['Samsung TV', 'LG TV', 'TCL TV', 'Haier TV', 'Sony TV'],
-    'Washing Machine' => ['Haier Washing Machine', 'Dawlance Washing Machine', 'LG Washing Machine', 'Samsung Washing Machine'],
-    'Heater' => ['Haier Heater', 'Dawlance Heater', 'LG Heater'],
-    'Air Fryer' => ['Haier Air Fryer', 'Dawlance Air Fryer', 'LG Air Fryer'],
-    'Air Cooler' => ['Haier Air Cooler', 'Dawlance Air Cooler', 'Orient Air Cooler'],
-    'Personal Care' => ['Philips Personal Care', 'Remington Personal Care', 'Braun Personal Care'],
-    'Kitchen Appliances' => ['Haier Kitchen', 'Dawlance Kitchen', 'LG Kitchen'],
-    'Iron & Garment Steamer' => ['Philips Iron', 'Panasonic Iron', 'Remington Iron'],
-    'Microwave Oven' => ['Haier Microwave', 'LG Microwave', 'Samsung Microwave'],
-    'Oven Toaster' => ['Haier Oven', 'LG Oven', 'Samsung Oven'],
-];
+$allCategories = \App\Models\Category::whereHas('products')->get();
+$brandsByCategory = \DB::table('brands')
+    ->join('products', 'brands.id', '=', 'products.brand_id')
+    ->whereIn('products.category_id', $allCategories->pluck('id'))
+    ->select('brands.name', 'brands.slug', 'products.category_id')
+    ->distinct()
+    ->get()
+    ->groupBy('category_id');
 @endphp
 
 <div class="category-menu-container">
-        <div class="category-sidebar">
-            <div class="category-header">SHOP BY CATEGORY</div>
-            <ul class="category-list">
-                @foreach($categories as $category => $brands)
-                    <li class="category-item" data-category="{{ $category }}">
-                        <a href="#" class="category-link">
-                            <span>{{ $category }}</span>
-                            <i class="bi bi-chevron-right"></i>
-                        </a>
-                    </li>
-                @endforeach
-            </ul>
-        </div>
-
-        <div class="brands-dropdown">
-            @foreach($categories as $category => $brands)
-                <div class="brands-menu" data-category="{{ $category }}">
-                    <div class="brands-header">{{ strtoupper($category) }} BRANDS</div>
-                    <ul class="brands-list">
-                        @foreach($brands as $brand)
-                            @php
-                                $brandSlug = strtolower(str_replace([' ', '&', '/'], ['-', 'and', '-'], $brand));
-                            @endphp
-                            <li><a href="{{ route('products.brand', $brandSlug) }}">{{ $brand }}</a></li>
-                        @endforeach
-                    </ul>
-                </div>
+    <div class="category-sidebar">
+        <div class="category-header">SHOP BY CATEGORY</div>
+        <ul class="category-list">
+            @foreach($allCategories as $category)
+                <li class="category-item" data-category="{{ $category->slug }}">
+                    <a href="{{ route('products.category', $category->slug) }}" class="category-link d-flex align-items-center">
+                        <i class="bi {{ $category->icon ?: 'bi-grid' }} me-3 fs-5 text-brand-blue"></i>
+                        <span class="flex-grow-1">{{ $category->name }}</span>
+                        <i class="bi bi-chevron-right ms-2 small text-muted"></i>
+                    </a>
+                </li>
             @endforeach
-        </div>
+        </ul>
+    </div>
+
+    <div class="brands-dropdown">
+        @foreach($allCategories as $category)
+            <div class="brands-menu" data-category="{{ $category->slug }}">
+                <div class="brands-header">{{ strtoupper($category->name) }} BRANDS</div>
+                <ul class="brands-list">
+                    @if($brandsByCategory->has($category->id))
+                        @foreach($brandsByCategory->get($category->id) as $brand)
+                            <li>
+                                <a href="{{ route('products.brand', ['brand' => $brand->slug, 'category' => $category->slug]) }}">
+                                    {{ $brand->name }}
+                                </a>
+                            </li>
+                        @endforeach
+                    @else
+                        <li class="text-muted small ps-3">No brands found</li>
+                    @endif
+                </ul>
+            </div>
+        @endforeach
     </div>
 </div>
 
