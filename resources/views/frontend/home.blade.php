@@ -106,11 +106,60 @@
     </section>
     @endif
 
+
+     <!-- Featured Products Section -->
+    @if($featuredProducts->isNotEmpty())
+    <section class="container-fluid py-5 bg-white" aria-label="Sale products">
+        <div class="px-3 px-md-4 px-lg-5">
+            <h2 class="section-title mb-4">FEATURED PRODUCTS</h2>
+
+            <!-- Products Carousel -->
+            <div id="saleProductsCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
+                <div class="carousel-inner">
+                    @foreach($featuredProducts->chunk(4) as $index => $chunk)
+                        <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                            <div class="row g-3 g-md-4">
+                                @foreach($chunk as $product)
+                                    <div class="col-6 col-md-3">
+                                        <x-product-card
+                                            :id="$product->id"
+                                            :name="$product->name"
+                                            :price="$product->sale_price ?? $product->price"
+                                            :oldPrice="$product->sale_price ? $product->price : null"
+                                            :discount="$product->discount_percent"
+                                            :image="$product->image"
+                                            :rating="$product->rating ?? 0"
+                                            :reviews="$product->reviews->count()"
+                                            :showCart="true"
+                                            :slug="$product->slug"
+                                        />
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+
+                <!-- Carousel Controls -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#saleProductsCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon bg-dark rounded-circle" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#saleProductsCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon bg-dark rounded-circle" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+    </section>
+    @endif
+
+
     <!-- Popular Brands Section -->
     <section class="container-fluid py-5 bg-light" aria-label="Popular Brands">
         <div class="px-3 px-md-4 px-lg-5">
             <h2 class="section-title mb-4">Popular Brands</h2>
-            
+
              <!-- Brands Carousel -->
             <div id="brandsCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3500">
                 <div class="carousel-inner">
@@ -181,7 +230,7 @@
     @if($reviews->isNotEmpty())
     <section class="container-fluid py-5 text-center" aria-label="Customer testimonials">
         <h2 class="section-title">Let customers speak for us</h2>
-        
+
         <div id="testimonialCarousel" class="carousel slide bg-white shadow-sm p-5 rounded" data-bs-ride="carousel">
             <div class="carousel-inner">
                 @foreach($reviews as $index => $review)
@@ -210,7 +259,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var saleCarousel = new bootstrap.Carousel(document.getElementById('saleProductsCarousel'), {
-                interval: 4000,
+                interval: 3500,
                 ride: 'carousel'
             });
             var brandsCarousel = new bootstrap.Carousel(document.getElementById('brandsCarousel'), {

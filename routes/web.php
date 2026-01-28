@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Backend\AttributeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\ProductController;
@@ -65,6 +66,7 @@ Route::get('/store-location', [PageController::class, 'storeLocation'])->name('s
 
 // Backend Admin Routes
 Route::prefix('admin')->name('backend.')->middleware(['auth', 'admin'])->group(function () {
+
     Route::get('/', function () {
         return redirect()->route('backend.dashboard');
     });
@@ -79,6 +81,8 @@ Route::prefix('admin')->name('backend.')->middleware(['auth', 'admin'])->group(f
 
     // Brands
     Route::resource('brands', BrandController::class);
+    Route::get('/brandsByCategory/{categoryId}', [BrandController::class, 'brandsByCategory']);
+
 
     // Orders
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
@@ -87,9 +91,11 @@ Route::prefix('admin')->name('backend.')->middleware(['auth', 'admin'])->group(f
 
     // Users
     Route::resource('users', BackendUserController::class);
-    
+
     // Attributes
-    Route::resource('attributes', \App\Http\Controllers\Backend\AttributeController::class);
+    Route::resource('attributes', AttributeController::class);
+    Route::get('/attributesByCategory/{categoryId}', [AttributeController::class, 'attributesByCategory']);
+
 
     // Reviews
     Route::resource('reviews', \App\Http\Controllers\Backend\ReviewController::class)->only(['index', 'edit', 'update', 'destroy']);

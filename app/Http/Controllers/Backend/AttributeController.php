@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Attribute;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -62,4 +63,9 @@ class AttributeController extends Controller
         $attribute->delete();
         return redirect()->route('backend.attributes.index')->with('success', 'Attribute deleted successfully.');
     }
+    public function attributesByCategory($categoryId){
+        $category = Category::with('attributes')->findOrFail($categoryId);
+        return response()->json($category->attributes);
+    }
+   
 }

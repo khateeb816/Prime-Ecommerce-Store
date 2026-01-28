@@ -54,7 +54,7 @@ class BrandController extends Controller
         }
 
         $brand = Brand::create($data);
-        
+
         // Sync categories
         if ($request->has('categories')) {
             $brand->categories()->sync($request->categories);
@@ -87,12 +87,12 @@ class BrandController extends Controller
     public function update(Request $request, string $id)
     {
         $brand = Brand::findOrFail($id);
-        
+
         $request->validate([
             'name' => 'required|string|max:255',
             'icon' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-             'categories' => 'nullable|array',
-             'categories.*' => 'exists:categories,id',
+            'categories' => 'nullable|array',
+            'categories.*' => 'exists:categories,id',
         ]);
 
         $data = [
@@ -112,12 +112,12 @@ class BrandController extends Controller
         }
 
         $brand->update($data);
-        
+
         // Sync categories
         if ($request->has('categories')) {
-             $brand->categories()->sync($request->categories);
+            $brand->categories()->sync($request->categories);
         } else {
-             $brand->categories()->detach();
+            $brand->categories()->detach();
         }
 
 
@@ -137,5 +137,11 @@ class BrandController extends Controller
         $brand->delete();
 
         return redirect()->route('backend.brands.index')->with('success', 'Brand deleted successfully.');
+    }
+
+    public function brandsByCategory($categoryId)
+    {
+        $category = Category::with('brands')->findOrFail($categoryId);
+        return response()->json($category->brands);
     }
 }
