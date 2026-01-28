@@ -41,25 +41,84 @@
             <!-- Product Images -->
             <div class="col-lg-6 mb-4">
                 <div class="product-image-main mb-3 position-relative">
-                    <div class="product-image-placeholder tall d-flex align-items-center justify-content-center bg-light border rounded"
-                        style="min-height: 500px; cursor: zoom-in;">
-                        <i class="bi bi-snow" style="font-size: 200px; color: var(--brand-blue);"></i>
+                    <div id="productImageCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+
+                            {{-- Main Image --}}
+                            <div class="carousel-item active">
+                                <div class="product-image-placeholder tall d-flex align-items-center justify-content-center bg-light border rounded"
+                                    style="min-height: 500px; cursor: zoom-in;">
+                                    @if ($product->image)
+                                        <img src="{{ asset('storage/' . $product->image) }}" class="img-fluid rounded"
+                                            style="max-height: 500px; object-fit: contain;">
+                                    @else
+                                        <i class="bi bi-snow" style="font-size: 200px; color: var(--brand-blue);"></i>
+                                    @endif
+                                </div>
+                            </div>
+
+                            {{-- Gallery Images --}}
+                            @foreach ($product->images as $img)
+                                <div class="carousel-item">
+                                    <div class="product-image-placeholder tall d-flex align-items-center justify-content-center bg-light border rounded"
+                                        style="min-height: 500px; cursor: zoom-in;">
+                                        <img src="{{ asset('storage/' . $img->image_path) }}" class="img-fluid rounded"
+                                            style="max-height: 500px; object-fit: contain;">
+                                    </div>
+                                </div>
+                            @endforeach
+
+                        </div>
+
+                        {{-- Controls --}}
+                        <button class="carousel-control-prev" type="button" data-bs-target="#productImageCarousel"
+                            data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon"></span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#productImageCarousel"
+                            data-bs-slide="next">
+                            <span class="carousel-control-next-icon"></span>
+                        </button>
+
+                        @if ($product['discount'])
+                            <span class="badge bg-danger position-absolute top-0 start-0 m-3"
+                                style="font-size: 1rem; padding: 8px 12px;">
+                                {{ $product['discount'] }}% OFF
+                            </span>
+                        @endif
                     </div>
-                    @if ($product['discount'])
-                        <span class="badge bg-danger position-absolute top-0 start-0 m-3"
-                            style="font-size: 1rem; padding: 8px 12px;">{{ $product['discount'] }}% OFF</span>
-                    @endif
                 </div>
+
                 <div class="product-image-thumbnails d-flex gap-2 overflow-auto pb-2">
-                    @for ($i = 1; $i <= 5; $i++)
-                        <div class="product-image-thumb border rounded flex-shrink-0 {{ $i === 1 ? 'border-danger border-2' : '' }}"
-                            style="width: 100px; height: 100px; cursor: pointer; transition: all 0.3s;">
-                            <div class="d-flex align-items-center justify-content-center h-100">
+
+                    {{-- Main image thumbnail (slide 0) --}}
+                    <div class="product-image-thumb border rounded flex-shrink-0 border-danger border-2"
+                        style="width: 100px; height: 100px; cursor: pointer; transition: all 0.3s;"
+                        data-bs-target="#productImageCarousel" data-bs-slide-to="0">
+                        <div class="d-flex align-items-center justify-content-center h-100">
+                            @if ($product->image)
+                                <img src="{{ asset('storage/' . $product->image) }}" class="w-100 h-100 rounded"
+                                    style="object-fit: cover;">
+                            @else
                                 <i class="bi bi-snow" style="font-size: 40px; color: var(--brand-blue);"></i>
+                            @endif
+                        </div>
+                    </div>
+
+                    {{-- Gallery thumbnails --}}
+                    @foreach ($product->images as $index => $img)
+                        <div class="product-image-thumb border rounded flex-shrink-0"
+                            style="width: 100px; height: 100px; cursor: pointer; transition: all 0.3s;"
+                            data-bs-target="#productImageCarousel" data-bs-slide-to="{{ $index + 1 }}">
+                            <div class="d-flex align-items-center justify-content-center h-100">
+                                <img src="{{ asset('storage/' . $img->image_path) }}" class="w-100 h-100 rounded"
+                                    style="object-fit: cover;">
                             </div>
                         </div>
-                    @endfor
+                    @endforeach
+
                 </div>
+
             </div>
 
             <!-- Product Info -->
@@ -121,8 +180,8 @@
                     <label class="fw-bold mb-2 d-block">Quantity:</label>
                     <div class="input-group" style="width: 150px;">
                         <button class="btn btn-outline-secondary" type="button" id="decreaseQty">-</button>
-                        <input type="number" class="form-control text-center" id="quantity" value="1" min="1"
-                            max="10">
+                        <input type="number" class="form-control text-center" id="quantity" value="1"
+                            min="1" max="10">
                         <button class="btn btn-outline-secondary" type="button" id="increaseQty">+</button>
                     </div>
                 </div>

@@ -222,11 +222,6 @@
                 const selectedOption = attributeSelector.options[attributeSelector.selectedIndex];
                 const attributeName = selectedOption.dataset.name || selectedOption.textContent;
 
-                // Prevent duplicates
-                if (document.querySelector(`.attribute-row[data-id="${attributeId}"]`)) {
-                    alert('This attribute is already added.');
-                    return;
-                }
 
                 if (noAttrMsg) noAttrMsg.style.display = 'none';
 

@@ -1,13 +1,19 @@
 @php
 $allCategories = \App\Models\Category::whereHas('products')->get();
-$brandsByCategory = \DB::table('brands')
-    ->join('products', 'brands.id', '=', 'products.brand_id')
-    ->whereIn('products.category_id', $allCategories->pluck('id'))
-    ->select('brands.name', 'brands.slug', 'products.category_id')
-    ->distinct()
+
+$brandsByCategory = \DB::table('brand_category')
+    ->join('brands', 'brand_category.brand_id', '=', 'brands.id')
+    ->whereIn('brand_category.category_id', $allCategories->pluck('id'))
+    ->select(
+        'brands.id',
+        'brands.name',
+        'brands.slug',
+        'brand_category.category_id'
+    )
     ->get()
     ->groupBy('category_id');
 @endphp
+
 
 <div class="category-menu-container">
     <div class="category-sidebar">
