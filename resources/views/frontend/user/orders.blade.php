@@ -71,7 +71,11 @@
                             @endif
                         </div>
                          <div class="card-footer bg-white border-top-0 text-end p-3">
-                            <a href="#" class="btn btn-sm btn-outline-primary">View Details</a>
+                            <a href="#" 
+                               class="btn btn-sm btn-outline-primary"
+                               data-bs-toggle="modal" 
+                               data-bs-target="#orderDetailsModal" 
+                               data-order-id="{{ $order->id }}">View Details</a>
                         </div>
                     </div>
                 @empty
@@ -89,5 +93,38 @@
             </div>
         </div>
     </section>
+@endsection
+
+@section('scripts')
+    @include('frontend.user.partials.order_details_modal')
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var orderDetailsModal = document.getElementById('orderDetailsModal');
+            orderDetailsModal.addEventListener('show.bs.modal', function (event) {
+                var button = event.relatedTarget;
+                var orderId = button.getAttribute('data-order-id');
+                var modalBody = orderDetailsModal.querySelector('#orderDetailsContent');
+                
+                // Show loading spinner
+                modalBody.innerHTML = '<div class="text-center py-5"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></div>';
+
+                // Fetch order details
+                fetch('{{ url("user/orders") }}/' + orderId, {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(response => response.text())
+                .then(html => {
+                    modalBody.innerHTML = html;
+                })
+                .catch(error => {
+                    modalBody.innerHTML = '<div class="alert alert-danger m-3">Failed to load order details. Please try again.</div>';
+                    console.error('Error:', error);
+                });
+            });
+        });
+    </script>
 @endsection
 

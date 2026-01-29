@@ -95,7 +95,7 @@
                 
                 <div class="d-flex gap-2">
                     <a href="{{ route('backend.orders.index') }}" class="btn btn-secondary">Back to Orders</a>
-                    <button class="btn btn-primary" onclick="window.print()">Print Invoice</button>
+                    <a href="{{ route('backend.orders.invoice', $order->id) }}" target="_blank" class="btn btn-primary"><i class="bi bi-printer me-1"></i> Print Invoice</a>
                 </div>
             </div>
         </div>

@@ -34,6 +34,11 @@ class UserController extends Controller
     public function orderShow($id)
     {
         $order = auth()->user()->orders()->with('items.product')->findOrFail($id);
+        
+        if (request()->ajax()) {
+            return view('frontend.user.partials.order_details_content', compact('order'))->render();
+        }
+
         return view('frontend.user.order_show', compact('order'));
     }
 
